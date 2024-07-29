@@ -30,7 +30,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
     fileNames = cms.untracked.vstring(
-        '/EGamma/Run2018A-UL2018_MiniAODv2_GT36-v1/MINIAOD',
+        '/store/data/Run2018A/EGamma/MINIAOD/UL2018_MiniAODv2_GT36-v1/2820000/010271C3-A445-EA40-830E-3BB6EA059CC0.root',
 	#'/store/mc/RunIISummer20UL18MiniAODv2/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/100000/4E295BA9-D9F7-6643-B993-57789E70C0CB.root',
 	#'/store/mc/RunIISummer16MiniAODv2/SUSYGluGluToHToAA_AToBB_AToTauTau_M-40_TuneCUETP8M1_13TeV_madgraph_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/70000/1E524614-FDDB-E611-894B-001E67457DFA.root'
 
