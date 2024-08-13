@@ -61,6 +61,9 @@ int main(int argc, char** argv) {
     arbre->SetBranchAddress("probe_MVAisoWP90", &probe_MVAisoWP90);
     arbre->SetBranchAddress("probe_MVAisoWP80", &probe_MVAisoWP80);
     arbre->SetBranchAddress("probe_MVAisoWPLoose", &probe_MVAisoWPLoose);
+    arbre->SetBranchAddress("probe_MVAnoIsoWP90", &probe_MVAnoIsoWP90);
+    arbre->SetBranchAddress("probe_MVAnoIsoWP80", &probe_MVAnoIsoWP80);
+    arbre->SetBranchAddress("probe_MVAnoIsoWPLoose", &probe_MVAnoIsoWPLoose);
     arbre->SetBranchAddress("probe_matchHLTEle25", &probe_matchHLTEle25);
     arbre->SetBranchAddress("probe_matchHLTEle27", &probe_matchHLTEle27);
     arbre->SetBranchAddress("probe_matchHLTEle32", &probe_matchHLTEle32);
@@ -190,8 +193,12 @@ int main(int argc, char** argv) {
         if (discriminant=="MVAisoWP80") is_pass=probe_MVAisoWP80;
         if (discriminant=="MVAisoWP90") is_pass=probe_MVAisoWP90;
         if (discriminant=="antiiso") is_pass=(probe_MVAisoWPLoose and !probe_MVAisoWP80);
+        if (discriminant=="MVAnoIsoWPLoose") is_pass=probe_MVAnoIsoWPLoose;
+        if (discriminant=="MVAnoIsoWP80") is_pass=probe_MVAnoIsoWP80;
+        if (discriminant=="MVAnoIsoWP90") is_pass=probe_MVAnoIsoWP90;
+        if (discriminant=="antinoIso") is_pass=(probe_MVAnoIsoWPLoose and !probe_MVAnoIsoWP80);
 
-	if (discriminant!="antiiso" and discriminant!="MVAisoWPLoose" and discriminant!="MVAisoWP80" and discriminant!="MVAisoWP90" and probe_MVAisoWP80==0) continue;
+	if (discriminant!="antiiso" and discriminant!="MVAnoIsoWPLoose" and discriminant!="MVAnoIsoWP80" and discriminant!="MVAnoIsoWP90" and probe_MVAnoIsoWP80==0) continue;
 
         if (discriminant=="HLTEle24Tau30" and tag_matchedToL1Tau==0) continue;
         if ((discriminant=="HLTEle25" or discriminant=="HLTEle24Tau30") and (fabs(probe_sceta)>2.1 or fabs(probe_eta)>2.1)) continue;
