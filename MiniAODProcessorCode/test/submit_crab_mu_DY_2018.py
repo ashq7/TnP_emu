@@ -1,4 +1,4 @@
-from CRABClient.UserUtilities import config, getUsernameFromCRIC
+from CRABClient.UserUtilities import config #, getUsernameFromCRIC
 
 config = config()
 
@@ -14,7 +14,6 @@ config.JobType.maxMemoryMB = 4000
 
 config.Data.inputDataset = "/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v2/MINIAODSIM" 
 config.Data.outLFNDirBase = "/store/group/cmst3/group/taug2/TnP_mu_2018/"
-#config.Data.outLFNDirBase = "/store/group/cmst3/user/ccaillol/reNanoAOD/"
 config.Data.outputDatasetTag = "TnP_ntuples_mu2018"
 config.Data.inputDBS = "global"
 config.Data.splitting = "FileBased"
