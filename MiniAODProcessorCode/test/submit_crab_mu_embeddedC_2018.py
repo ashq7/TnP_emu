@@ -19,7 +19,7 @@ config.Data.splitting    = 'FileBased'
 config.Data.unitsPerJob  = 1
 
 #config.Data.inputDataset = "/SingleMuon/Run2018A-UL2018_MiniAODv2_GT36-v1/MINIAOD" 
-config.Data.outLFNDirBase = "/store/group/cmst3/group/taug2/TnP_mu_2018/"
+config.Data.outLFNDirBase = "/store/user/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/"
 config.Data.outputDatasetTag = "TnP_ntuples_embedded_mu2018C"
 #config.Data.inputDBS = "global"
 #config.Data.splitting = "LumiBased"
