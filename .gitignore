@@ -1,2 +1,5 @@
 *.root
 *.pyc
+*.png
+*.exe
+
