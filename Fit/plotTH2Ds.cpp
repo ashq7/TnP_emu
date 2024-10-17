@@ -59,7 +59,7 @@ int plotTH2Ds(void) {
     c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_mc_eff_2018_HLT_" + thisHLTPath + ".pdf");
 
     // Draw the electrons Embedded eff
-    newEff_ele_embedded->SetTitle("Electron MC eff 2018" + thisHLTPath);
+    newEff_ele_embedded->SetTitle("Electron Embedded eff 2018" + thisHLTPath);
     newEff_ele_embedded->Draw("");
     newEff_ele_embedded->Draw("TEXT45 SAME");
     c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_embedded_eff_2018_HLT_" + thisHLTPath + ".png");
