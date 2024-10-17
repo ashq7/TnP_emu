@@ -13,7 +13,7 @@ config.JobType.maxMemoryMB = 4000
 #config.JobType.numCores = 8
 
 config.section_("Data")
-config.Data.inputDataset = '/EmbeddingRun2018B/ElMuFinalState-inputDoubleMu_106X_ULegacy_miniAOD-v1/USER'
+config.Data.inputDataset = '/EmbeddingRun2018B/MuonEmbedding-inputDoubleMu_106X_ULegacy_miniAOD-v1/USER'
 config.Data.inputDBS     = 'phys03'
 config.Data.splitting    = 'FileBased'
 config.Data.unitsPerJob  = 1
