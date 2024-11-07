@@ -2,8 +2,8 @@
 
 int plotTH2Ds(void) {
 
-    //TString thisHLTPath = "HLTMu8Ele23";
-     TString thisHLTPath = "HLTMu23Ele12";
+    TString thisHLTPath = "HLTMu8Ele23";
+    //TString thisHLTPath = "HLTMu23Ele12";
     TString path = "sf_el_2018_" + thisHLTPath + ".root";
 
     TFile *newFile = new TFile(path);
@@ -55,6 +55,8 @@ int plotTH2Ds(void) {
     newEff_ele_mc->SetTitle("Electron MC eff 2018" + thisHLTPath);
     newEff_ele_mc->Draw("");
     newEff_ele_mc->Draw("TEXT45 SAME");
+    //c1->GetXaxis()->SetTitle("{p_T} (GeV)");
+    //c1->GeYaxis()->SetTitle("{\eta}");
     c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_mc_eff_2018_" + thisHLTPath + ".png");
     c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_mc_eff_2018_" + thisHLTPath + ".pdf");
 
@@ -73,15 +75,16 @@ int plotTH2Ds(void) {
     c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_data_eff_2018_" + thisHLTPath + ".pdf");
 
     // Draw the electrons SF2D
-    newSF_ele_mc->SetTitle("Electron Embedded SF 2018" + thisHLTPath);
-    newSF_ele_mc->Draw("");
-    newSF_ele_mc->Draw("TEXT45 SAME");
+    //Embedded
+    newSF_ele_embedded->SetTitle("Electron Embedded SF 2018" + thisHLTPath);
+    newSF_ele_embedded->Draw("");
+    newSF_ele_embedded->Draw("TEXT45 SAME");
     c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_embedded_sf_2018_" + thisHLTPath + ".png");
     c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_embedded_sf_2018_" + thisHLTPath + ".pdf");
 
-    newSF_ele_embedded->SetTitle("Electron MC SF 2018" + thisHLTPath);
-    newSF_ele_embedded->Draw("");
-    newSF_ele_embedded->Draw("TEXT45 SAME");
+    newSF_ele_mc->SetTitle("Electron MC SF 2018" + thisHLTPath);
+    newSF_ele_mc->Draw("");
+    newSF_ele_mc->Draw("TEXT45 SAME");
     c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_mc_sf_2018_" + thisHLTPath + ".png");
     c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_mc_sf_2018_" + thisHLTPath + ".pdf");
 
