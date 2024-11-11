@@ -4,6 +4,7 @@ int plotTH2Ds(void) {
 
     TString thisHLTPath = "HLTMu8Ele23";
     //TString thisHLTPath = "HLTMu23Ele12";
+    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/";
     TString path = "sf_el_2018_" + thisHLTPath + ".root";
 
     TFile *newFile = new TFile(path);
@@ -57,36 +58,36 @@ int plotTH2Ds(void) {
     newEff_ele_mc->Draw("TEXT45 SAME");
     //c1->GetXaxis()->SetTitle("{p_T} (GeV)");
     //c1->GeYaxis()->SetTitle("{\eta}");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_mc_eff_2018_" + thisHLTPath + ".png");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_mc_eff_2018_" + thisHLTPath + ".pdf");
+    c1->SaveAs("electron_mc_eff_2018_" + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_mc_eff_2018_" + thisHLTPath + ".pdf");
 
     // Draw the electrons Embedded eff
     newEff_ele_embedded->SetTitle("Electron Embedded eff 2018" + thisHLTPath);
     newEff_ele_embedded->Draw("");
     newEff_ele_embedded->Draw("TEXT45 SAME");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_embedded_eff_2018_" + thisHLTPath + ".png");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_embedded_eff_2018_" + thisHLTPath + ".pdf");
+    c1->SaveAs(outputPath + "electron_embedded_eff_2018_" + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_embedded_eff_2018_" + thisHLTPath + ".pdf");
 
     // Draw the electrons Data eff
     newEff_ele_data->SetTitle("Electron Data eff 2018" + thisHLTPath);
     newEff_ele_data->Draw("");
     newEff_ele_data->Draw("TEXT45 SAME");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_data_eff_2018_" + thisHLTPath + ".png");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_data_eff_2018_" + thisHLTPath + ".pdf");
+    c1->SaveAs(outputPath + "electron_data_eff_2018_" + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_data_eff_2018_" + thisHLTPath + ".pdf");
 
     // Draw the electrons SF2D
     //Embedded
     newSF_ele_embedded->SetTitle("Electron Embedded SF 2018" + thisHLTPath);
     newSF_ele_embedded->Draw("");
     newSF_ele_embedded->Draw("TEXT45 SAME");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_embedded_sf_2018_" + thisHLTPath + ".png");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_embedded_sf_2018_" + thisHLTPath + ".pdf");
+    c1->SaveAs(outputPath + "electron_embedded_sf_2018_" + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_embedded_sf_2018_" + thisHLTPath + ".pdf");
 
     newSF_ele_mc->SetTitle("Electron MC SF 2018" + thisHLTPath);
     newSF_ele_mc->Draw("");
     newSF_ele_mc->Draw("TEXT45 SAME");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_mc_sf_2018_" + thisHLTPath + ".png");
-    c1->SaveAs("/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/electron_mc_sf_2018_" + thisHLTPath + ".pdf");
+    c1->SaveAs(outputPath + "electron_mc_sf_2018_" + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_mc_sf_2018_" + thisHLTPath + ".pdf");
 
 /*    // Draw the muons
     newSF_muon->SetTitle("UL muon SF");
