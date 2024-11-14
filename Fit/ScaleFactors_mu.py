@@ -70,18 +70,46 @@ c.cd()
 
 file_data=ROOT.TFile("output_Data_"+args.year+"_"+args.discriminant+".root","r")
 file_mc=ROOT.TFile("output_DY_"+args.year+"_"+args.discriminant+".root","r")
+file_embedded=ROOT.TFile("output_Embedded_"+args.year+"_"+args.discriminant+".root","r")
 
 eff2D_data=file_data.Get("eff")
 eff2D_mc=file_mc.Get("eff")
+eff2D_embedded=file_embedded.Get("eff")
 
 file_out=ROOT.TFile("sf_mu_"+args.year+"_"+args.discriminant+".root","recreate")
 file_out.cd()
-sf2D=eff2D_data.Clone()
-sf2D.Divide(eff2D_mc)
-sf2D.SetName("SF2D")
+
+#SF2D for Monte Carlo
+sf2D_mc=eff2D_data.Clone()
+sf2D_mc.Divide(eff2D_mc)
+sf2D_mc.SetName("SF2D_mc")
+sf2D_mc.SetTitle("SF2D_mc_"+args.discriminant)
+sf2D_mc.GetXaxis().SetTitle("p_T (GeV)")
+sf2D_mc.GetYaxis().SetTitle("\eta")
+sf2D_mc.Write()
+
+#SF2D for embedded
+sf2D_embedded=eff2D_data.Clone()
+sf2D_embedded.Divide(eff2D_embedded)
+sf2D_embedded.SetName("SF2D_embedded")
+sf2D_embedded.SetTitle("SF2D_embedded"+args.discriminant)
+sf2D_embedded.GetXaxis().SetTitle("p_T (GeV)")
+sf2D_embedded.GetYaxis().SetTitle("\eta")
+sf2D_embedded.Write()
+
+#eff2D for data, MC, and embedded
 eff2D_data.SetName("eff_data")
+eff2D_data.SetTitle("eff_data_"+args.discriminant)
+eff2D_data.GetXaxis().SetTitle("p_T (GeV)")
+eff2D_data.GetYaxis().SetTitle("\eta")
 eff2D_mc.SetName("eff_mc")
-sf2D.Write()
+eff2D_mc.SetTitle("eff_mc_"+args.discriminant)
+eff2D_mc.GetXaxis().SetTitle("p_T (GeV)")
+eff2D_mc.GetYaxis().SetTitle("\eta")
+eff2D_embedded.SetName("eff_embedded")
+eff2D_embedded.SetTitle("eff_embedded_"+args.discriminant)
+eff2D_embedded.GetXaxis().SetTitle("p_T (GeV)")
+eff2D_embedded.GetYaxis().SetTitle("\eta")
 eff2D_data.Write()
 eff2D_mc.Write()
 
