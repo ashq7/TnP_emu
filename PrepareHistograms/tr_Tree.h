@@ -21,6 +21,9 @@
    Int_t           probe_MVAisoWP90;
    Int_t           probe_MVAisoWP80;
    Int_t           probe_MVAisoWPLoose;
+   Int_t           probe_MVAnoIsoWP90;
+   Int_t           probe_MVAnoIsoWP80;
+   Int_t           probe_MVAnoIsoWPLoose;
    Int_t           probe_matchHLTEle25;
    Int_t           probe_matchHLTEle27;
    Int_t           probe_matchHLTEle32;
