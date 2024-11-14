@@ -4,7 +4,7 @@ int plotTH2Ds_el(void) {
 
     TString thisHLTPath = "HLTMu8Ele23";
     //TString thisHLTPath = "HLTMu23Ele12";
-    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/";
+    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Nov14/";
     TString path = "sf_el_2018_" + thisHLTPath + ".root";
 
     TFile *newFile = new TFile(path);
