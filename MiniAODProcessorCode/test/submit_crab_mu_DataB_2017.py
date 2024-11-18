@@ -1,4 +1,4 @@
-from CRABClient.UserUtilities import config, getUsernameFromCRIC
+from CRABClient.UserUtilities import config#, getUsernameFromCRIC
 
 config = config()
 
@@ -13,7 +13,7 @@ config.JobType.maxMemoryMB = 4000
 #config.JobType.numCores = 8
 
 config.Data.inputDataset = "/SingleMuon/Run2017B-UL2017_MiniAODv2-v1/MINIAOD" 
-config.Data.outLFNDirBase = "/store/group/cmst3/group/taug2/TnP_mu_2017/"
+config.Data.outLFNDirBase = "/store/user/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/2017_mu_Data"
 #config.Data.outLFNDirBase = "/store/group/cmst3/user/ccaillol/reNanoAOD/"
 config.Data.outputDatasetTag = "TnP_ntuples_mu2017"
 config.Data.inputDBS = "global"
@@ -23,5 +23,5 @@ config.Data.lumiMask = 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/
 config.Data.publication = False
 config.Data.ignoreLocality = True
 
-config.Site.storageSite = "T2_CH_CERN"
+config.Site.storageSite = "T3_CH_CERNBOX"
 config.Site.whitelist = ["T2_*","T3_*"]
