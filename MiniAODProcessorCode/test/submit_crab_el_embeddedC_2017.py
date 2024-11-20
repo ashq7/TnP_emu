@@ -8,7 +8,7 @@ config.General.transferLogs = True
 config.General.transferOutputs = True
 
 config.JobType.pluginName = "Analysis"
-config.JobType.psetName = "run_Electron_Embedded.py"
+config.JobType.psetName = "run_Electron_Embedded_2017.py"
 config.JobType.maxMemoryMB = 4000
 #config.JobType.numCores = 8
 

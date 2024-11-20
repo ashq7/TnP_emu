@@ -8,7 +8,7 @@ config.General.transferLogs = True
 config.General.transferOutputs = True
 
 config.JobType.pluginName = "Analysis"
-config.JobType.psetName = "run_Electron_Embedded.py"
+config.JobType.psetName = "run_Electron_Embedded_2017.py"
 config.JobType.maxMemoryMB = 4000
 #config.JobType.numCores = 8
 
@@ -19,7 +19,7 @@ config.Data.splitting    = 'FileBased'
 config.Data.unitsPerJob  = 1
 
 #config.Data.inputDataset = "/EGamma/Run2018A-UL2018_MiniAODv2_GT36-v1/MINIAOD" 
-config.Data.outLFNDirBase = "/store/user/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/2017_el_Embedded"
+config.Data.outLFNDirBase = "/store/user/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/2017_el_Embedded/"
 config.Data.outputDatasetTag = "TnP_ntuples_embedded_DataB_el2017"
 #config.Data.inputDBS = "global"
 #config.Data.splitting = "LumiBased"
