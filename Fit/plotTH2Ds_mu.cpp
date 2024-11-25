@@ -2,10 +2,12 @@
 
 int plotTH2Ds_mu(void) {
 
-    //TString thisHLTPath = "HLTMu8Ele23";
-    TString thisHLTPath = "HLTMu23Ele12";
-    TString year = "2018";
-    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Nov14/";
+    TString thisHLTPath = "HLTMu8Ele23";
+    //TString thisHLTPath = "HLTMu23Ele12";
+    TString year = "2017";
+    //TString year = "2018";
+
+    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Nov25/";
     TString path = "sf_mu_" + year + "_" + thisHLTPath + ".root";
 
     TFile *newFile = new TFile(path);
@@ -68,7 +70,7 @@ int plotTH2Ds_mu(void) {
     c1->SaveAs(outputPath + "muon_embedded_eff_" + year + "_" + thisHLTPath + ".pdf");
 
     // Draw the muons Data eff
-    newEff_mu_data->SetTitle("muon Data eff " + year + "_" + thisHLTPath);
+    newEff_mu_data->SetTitle("muon Data eff " + year + thisHLTPath);
     newEff_mu_data->Draw("");
     newEff_mu_data->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "muon_data_eff_" + year + "_" + thisHLTPath + ".png");
