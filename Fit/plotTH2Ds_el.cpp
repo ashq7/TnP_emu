@@ -2,10 +2,14 @@
 
 int plotTH2Ds_el(void) {
 
+    //Toggle menu (either/or):
     TString thisHLTPath = "HLTMu8Ele23";
     //TString thisHLTPath = "HLTMu23Ele12";
-    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Nov14/";
-    TString path = "sf_el_2018_" + thisHLTPath + ".root";
+    TString year = "2017";
+    //TString year = "2018";
+
+    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Nov25/";
+    TString path = "sf_el_" + year + "_"  + thisHLTPath + ".root";
 
     TFile *newFile = new TFile(path);
     if (!newFile->IsOpen() || newFile==0 ) {
@@ -53,41 +57,40 @@ int plotTH2Ds_el(void) {
     TLegend* leg = new TLegend(0.60,0.75,0.85,0.9);
 
     // Draw the electrons MC eff 
-    newEff_ele_mc->SetTitle("Electron MC eff 2018" + thisHLTPath);
+    newEff_ele_mc->SetTitle("Electron MC eff" + year + thisHLTPath);
     newEff_ele_mc->Draw("");
     newEff_ele_mc->Draw("TEXT45 SAME");
-    //c1->GetXaxis()->SetTitle("{p_T} (GeV)");
-    //c1->GeYaxis()->SetTitle("{\eta}");
-    c1->SaveAs(outputPath + "electron_mc_eff_2018_" + thisHLTPath + ".png");
-    c1->SaveAs(outputPath + "electron_mc_eff_2018_" + thisHLTPath + ".pdf");
+
+    c1->SaveAs(outputPath + "electron_mc_eff_" + year +"_" + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_mc_eff_" + year +"_" + thisHLTPath + ".pdf");
 
     // Draw the electrons Embedded eff
-    newEff_ele_embedded->SetTitle("Electron Embedded eff 2018" + thisHLTPath);
+    newEff_ele_embedded->SetTitle("Electron Embedded eff" + year + thisHLTPath);
     newEff_ele_embedded->Draw("");
     newEff_ele_embedded->Draw("TEXT45 SAME");
-    c1->SaveAs(outputPath + "electron_embedded_eff_2018_" + thisHLTPath + ".png");
-    c1->SaveAs(outputPath + "electron_embedded_eff_2018_" + thisHLTPath + ".pdf");
+    c1->SaveAs(outputPath + "electron_embedded_eff_" + year + "_" + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_embedded_eff_" + year + "_" + thisHLTPath + ".pdf");
 
     // Draw the electrons Data eff
-    newEff_ele_data->SetTitle("Electron Data eff 2018" + thisHLTPath);
+    newEff_ele_data->SetTitle("Electron Data eff" + year + thisHLTPath);
     newEff_ele_data->Draw("");
     newEff_ele_data->Draw("TEXT45 SAME");
-    c1->SaveAs(outputPath + "electron_data_eff_2018_" + thisHLTPath + ".png");
-    c1->SaveAs(outputPath + "electron_data_eff_2018_" + thisHLTPath + ".pdf");
+    c1->SaveAs(outputPath + "electron_data_eff_" + year + "_" + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_data_eff_" + year + "_"  + thisHLTPath + ".pdf");
 
     // Draw the electrons SF2D
     //Embedded
-    newSF_ele_embedded->SetTitle("Electron Embedded SF 2018" + thisHLTPath);
+    newSF_ele_embedded->SetTitle("Electron Embedded SF" + year + thisHLTPath);
     newSF_ele_embedded->Draw("");
     newSF_ele_embedded->Draw("TEXT45 SAME");
-    c1->SaveAs(outputPath + "electron_embedded_sf_2018_" + thisHLTPath + ".png");
-    c1->SaveAs(outputPath + "electron_embedded_sf_2018_" + thisHLTPath + ".pdf");
+    c1->SaveAs(outputPath + "electron_embedded_sf_" + year + "_"  + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_embedded_sf_" + year + "_"  + thisHLTPath + ".pdf");
 
-    newSF_ele_mc->SetTitle("Electron MC SF 2018" + thisHLTPath);
+    newSF_ele_mc->SetTitle("Electron MC SF" + year + thisHLTPath);
     newSF_ele_mc->Draw("");
     newSF_ele_mc->Draw("TEXT45 SAME");
-    c1->SaveAs(outputPath + "electron_mc_sf_2018_" + thisHLTPath + ".png");
-    c1->SaveAs(outputPath + "electron_mc_sf_2018_" + thisHLTPath + ".pdf");
+    c1->SaveAs(outputPath + "electron_mc_sf_" + year + "_" + thisHLTPath + ".png");
+    c1->SaveAs(outputPath + "electron_mc_sf_" + year + "_"  + thisHLTPath + ".pdf");
 
 /*    // Draw the muons
     newSF_muon->SetTitle("UL muon SF");
