@@ -2,13 +2,16 @@
 
 int plotTH2Ds_el(void) {
 
-    //Toggle menu (either/or):
-    TString thisHLTPath = "HLTMu8Ele23";
-    //TString thisHLTPath = "HLTMu23Ele12";
-    TString year = "2017";
-    //TString year = "2018";
+    gStyle->SetOptStat(0);
 
-    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Nov25/";
+    //Toggle menu (either/or):
+    //TString thisHLTPath = "HLTMu8Ele23";
+    TString thisHLTPath = "HLTMu23Ele12";
+
+    //TString year = "2017";
+    TString year = "2018";
+
+    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Nov25/2018/";
     TString path = "sf_el_" + year + "_"  + thisHLTPath + ".root";
 
     TFile *newFile = new TFile(path);
@@ -42,6 +45,13 @@ int plotTH2Ds_el(void) {
         std::cout << "ERROR: SF2D_embedded not found in file; EXITING" << std::endl;
         return 0;
     }
+
+    //Max and min
+    newSF_ele_mc->SetMaximum(2.0);
+    newSF_ele_embedded->SetMaximum(2.0);
+
+    newSF_ele_mc->SetMinimum(0.0);
+    newSF_ele_embedded->SetMinimum(0.0);
 /*
     // Get the muons
     TH2F* newSF_muon = (TH2F*) newFile->Get("muon_SF2D");
@@ -57,7 +67,7 @@ int plotTH2Ds_el(void) {
     TLegend* leg = new TLegend(0.60,0.75,0.85,0.9);
 
     // Draw the electrons MC eff 
-    newEff_ele_mc->SetTitle("Electron MC eff" + year + thisHLTPath);
+    newEff_ele_mc->SetTitle("Electron MC eff" + year + "_" + thisHLTPath);
     newEff_ele_mc->Draw("");
     newEff_ele_mc->Draw("TEXT45 SAME");
 
@@ -65,14 +75,14 @@ int plotTH2Ds_el(void) {
     c1->SaveAs(outputPath + "electron_mc_eff_" + year +"_" + thisHLTPath + ".pdf");
 
     // Draw the electrons Embedded eff
-    newEff_ele_embedded->SetTitle("Electron Embedded eff" + year + thisHLTPath);
+    newEff_ele_embedded->SetTitle("Electron Embedded eff" + year + "_" + thisHLTPath);
     newEff_ele_embedded->Draw("");
     newEff_ele_embedded->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "electron_embedded_eff_" + year + "_" + thisHLTPath + ".png");
     c1->SaveAs(outputPath + "electron_embedded_eff_" + year + "_" + thisHLTPath + ".pdf");
 
     // Draw the electrons Data eff
-    newEff_ele_data->SetTitle("Electron Data eff" + year + thisHLTPath);
+    newEff_ele_data->SetTitle("Electron Data eff" + year + "_" + thisHLTPath);
     newEff_ele_data->Draw("");
     newEff_ele_data->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "electron_data_eff_" + year + "_" + thisHLTPath + ".png");
@@ -80,13 +90,13 @@ int plotTH2Ds_el(void) {
 
     // Draw the electrons SF2D
     //Embedded
-    newSF_ele_embedded->SetTitle("Electron Embedded SF" + year + thisHLTPath);
+    newSF_ele_embedded->SetTitle("Electron Embedded SF" + year + "_" + thisHLTPath);
     newSF_ele_embedded->Draw("");
     newSF_ele_embedded->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "electron_embedded_sf_" + year + "_"  + thisHLTPath + ".png");
     c1->SaveAs(outputPath + "electron_embedded_sf_" + year + "_"  + thisHLTPath + ".pdf");
 
-    newSF_ele_mc->SetTitle("Electron MC SF" + year + thisHLTPath);
+    newSF_ele_mc->SetTitle("Electron MC SF" + year + "_" + thisHLTPath);
     newSF_ele_mc->Draw("");
     newSF_ele_mc->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "electron_mc_sf_" + year + "_" + thisHLTPath + ".png");
