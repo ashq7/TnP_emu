@@ -2,12 +2,14 @@
 
 int plotTH2Ds_mu(void) {
 
+    gStyle->SetOptStat(0);
+
     TString thisHLTPath = "HLTMu8Ele23";
     //TString thisHLTPath = "HLTMu23Ele12";
-    TString year = "2017";
-    //TString year = "2018";
+    //TString year = "2017";
+    TString year = "2018";
 
-    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Nov25/";
+    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Nov25/2018/";
     TString path = "sf_mu_" + year + "_" + thisHLTPath + ".root";
 
     TFile *newFile = new TFile(path);
@@ -56,21 +58,21 @@ int plotTH2Ds_mu(void) {
     TLegend* leg = new TLegend(0.60,0.75,0.85,0.9);
 
     // Draw the muons MC eff 
-    newEff_mu_mc->SetTitle("muon MC eff" + year + thisHLTPath);
+    newEff_mu_mc->SetTitle("muon MC eff" + year + "_" + thisHLTPath);
     newEff_mu_mc->Draw("");
     newEff_mu_mc->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "muon_mc_eff_" + year + "_" + thisHLTPath + ".png");
     c1->SaveAs(outputPath + "muon_mc_eff_" + year + "_" + thisHLTPath + ".pdf");
 
     // Draw the muons Embedded eff
-    newEff_mu_embedded->SetTitle("muon Embedded eff" + year + thisHLTPath);
+    newEff_mu_embedded->SetTitle("muon Embedded eff" + year + "_" + thisHLTPath);
     newEff_mu_embedded->Draw("");
     newEff_mu_embedded->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "muon_embedded_eff_" + year + "_" + thisHLTPath + ".png");
     c1->SaveAs(outputPath + "muon_embedded_eff_" + year + "_" + thisHLTPath + ".pdf");
 
     // Draw the muons Data eff
-    newEff_mu_data->SetTitle("muon Data eff " + year + thisHLTPath);
+    newEff_mu_data->SetTitle("muon Data eff " + year + "_" + thisHLTPath);
     newEff_mu_data->Draw("");
     newEff_mu_data->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "muon_data_eff_" + year + "_" + thisHLTPath + ".png");
@@ -78,14 +80,14 @@ int plotTH2Ds_mu(void) {
 
     // Draw the muons SF2D
     //Embedded
-    newSF_mu_embedded->SetTitle("muon Embedded SF" + year + thisHLTPath);
+    newSF_mu_embedded->SetTitle("muon Embedded SF" + year + "_" + thisHLTPath);
     newSF_mu_embedded->Draw("");
     newSF_mu_embedded->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "muon_embedded_sf_" + year + "_" + thisHLTPath + ".png");
     c1->SaveAs(outputPath + "muon_embedded_sf_" + year + "_" + thisHLTPath + ".pdf");
 
     //MC
-    newSF_mu_mc->SetTitle("muon MC SF" + year + thisHLTPath);
+    newSF_mu_mc->SetTitle("muon MC SF" + year + "_" + thisHLTPath);
     newSF_mu_mc->Draw("");
     newSF_mu_mc->Draw("TEXT45 SAME");
     c1->SaveAs(outputPath + "muon_mc_sf_" + year + "_" + thisHLTPath + ".png");
