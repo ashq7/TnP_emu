@@ -1,8 +1,8 @@
 ./Make.sh Fit_el.cc
 ./Make.sh Fit_el_CMSShape.cc
 
-./Fit_el_CMSShape.exe 2016post ../PrepareHistograms/output_el_2016post/SingleElectron_HLTMu8Ele23.root output_Data_2016post_HLTMu8Ele23.root Data HLTMu8Ele23
-./Fit_el_CMSShape.exe 2016post ../PrepareHistograms/output_el_2016post/DY_HLTMu8Ele23.root output_DY_2016post_HLTMu8Ele23.root DY HLTMu8Ele23
+./Fit_el_CMSShape.exe 2016post ../PrepareHistograms/output_el_2016post/SingleElectron_HLTMu8Ele23.root output_el_2016post/Data_2016post_HLTMu8Ele23.root Data HLTMu8Ele23
+./Fit_el_CMSShape.exe 2016post ../PrepareHistograms/output_el_2016post/DY_HLTMu8Ele23.root output_el_2016post/DY_2016post_HLTMu8Ele23.root DY HLTMu8Ele23
 python ScaleFactors_el.py --year=2016post --discriminant=HLTMu8Ele23
 
 #./Fit_el_CMSShape.exe 2016post ../PrepareHistograms/output_el_2016post/SingleElectron_antiiso.root output_Data_2016post_antiiso.root Data antiiso
