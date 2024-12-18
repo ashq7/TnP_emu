@@ -13,7 +13,7 @@ int plotTH2Ds_el(void) {
     //TString year = "2017";
     //TString year = "2018";
 
-    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Dec11/";
+    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Dec18/";
 
     //first cross-trigger: HLTMu8Ele23
     TString path = "sf_el_" + year + "_" + firstHLTPath + ".root";
