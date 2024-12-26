@@ -4,16 +4,17 @@ int plotTH2Ds_el(void) {
 
     gStyle->SetOptStat(0);
 
-    //Toggle menu (either/or):
+    //HLT paths
     TString firstHLTPath = "HLTMu8Ele23";
     TString secondHLTPath = "HLTMu23Ele12";
 
-    TString year = "2016pre";
-    //TString year = "2016post";
+    //Toggle menu (either/or):
+    //TString year = "2016pre";
+    TString year = "2016post";
     //TString year = "2017";
     //TString year = "2018";
 
-    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Dec18/";
+    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Dec26/"+ year +"/electron/";
 
     //first cross-trigger: HLTMu8Ele23
     TString path = "sf_el_" + year + "_" + firstHLTPath + ".root";
@@ -25,7 +26,7 @@ int plotTH2Ds_el(void) {
     }
     TH2F* newEff_ele_mc = (TH2F*) newFile->Get("eff_mc");
     if (newEff_ele_mc == 0) {
-        std::cout << "ERROR: eff_mc not found in file; EXITING" << std::endl;
+        std::cout << "ERROR: eff_mc not found in file "<< path <<"; EXITING" << std::endl;
         return 0;
     }
     TH2F* newEff_ele_embedded = (TH2F*) newFile->Get("eff_embedded");
@@ -96,7 +97,10 @@ int plotTH2Ds_el(void) {
     c1->SaveAs(outputPath + "electron_mc_sf_" + year + "_" + firstHLTPath + ".png");
     c1->SaveAs(outputPath + "electron_mc_sf_" + year + "_"  + firstHLTPath + ".pdf");
 
-    //second cross-trigger: HLTMu23Ele12
+//********************************************************************* */
+//   second cross-trigger: HLTMu23Ele12
+//********************************************************************* */
+
     path = "sf_el_" + year + "_" + secondHLTPath + ".root";
 
     newFile = new TFile(path);

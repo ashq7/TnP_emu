@@ -8,8 +8,8 @@ int plotTH2Ds_el_singleTrigger(void) {
     TString thisHLTPath = "HLTMu8Ele23";
     //TString thisHLTPath = "HLTMu23Ele12";
 
-    TString year = "2016pre";
-    //TString year = "2016post";
+    //TString year = "2016pre";
+    TString year = "2016post";
     //TString year = "2017";
     //TString year = "2018";
 
