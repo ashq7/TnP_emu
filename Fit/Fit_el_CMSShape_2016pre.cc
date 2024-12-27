@@ -170,6 +170,7 @@ int main(int argc, char** argv) {
           float maxmean=105;
           float nommean1=90;
           float nommean2=90;
+          //Pallabi added
           if (k==7 && bins_pt[j]==15 and bins_pt[j+1]==24){ nommean1=93; }
           if (k==4 && bins_pt[j]==35 and bins_pt[j+1]==50){ nommean1=85; }
           if (bins_pt[j]==25 and bins_pt[j+1]==35){ minmean=85; }
