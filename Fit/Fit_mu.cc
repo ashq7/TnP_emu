@@ -164,10 +164,22 @@ int main(int argc, char** argv) {
           //categ.AddText("eff = "+to_string(efficiency));
   	  //categ.Draw("same");
 
-          if (k==0) c->SaveAs("plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_etalt0p9_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==1) c->SaveAs("plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_eta0p9to1p2_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==2) c->SaveAs("plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_eta1p2to2p1_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==3) c->SaveAs("plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_eta2p1to2p4_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          if (k==0) {
+            c->SaveAs("plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_etalt0p9_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_etalt0p9_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
+          else if (k==1) {
+            c->SaveAs("plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_eta0p9to1p2_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_eta0p9to1p2_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+         }
+          else if (k==2) {
+            c->SaveAs("plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_eta1p2to2p1_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_eta1p2to2p1_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
+          else if (k==3) {
+            c->SaveAs("plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_eta2p1to2p4_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+             c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_mu_"+year+"/fits_"+sample+"_"+discriminant+"_eta2p1to2p4_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
 
 
 	  eff2D->SetBinContent(j+1,k+1,efficiency);

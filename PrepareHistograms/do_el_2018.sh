@@ -2,7 +2,7 @@
 
 #Only need two cross triggers
 #HLTMu8Ele23
-#-------------------string year----------------string input----------------------------------------------string output----------string sample--string discriminant
+#-------------------string year----------------string input------------------------------------------------------string output----------------------string sample---string discriminant
 ./FinalSelection_el.exe 2018 /eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/EGamma_Electron_Data_2018.root output_el_2018/EGamma_HLTMu8Ele23.root data_obs HLTMu8Ele23
 ./FinalSelection_el.exe 2018 /eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/DY_Electron_2018.root output_el_2018/DY_HLTMu8Ele23.root DY HLTMu8Ele23
 ./FinalSelection_el.exe 2018 /eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/Embedded_Electron_2018_241009.root output_el_2018/Embedded_HLTMu8Ele23.root data_obs HLTMu8Ele23 
