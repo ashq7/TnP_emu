@@ -12,6 +12,13 @@ python ScaleFactors_el.py --year=2016pre --discriminant=HLTMu8Ele23
 ./Fit_el_CMSShape_2016pre.exe 2016pre ../PrepareHistograms/output_el_2016pre/Embedded_HLTMu23Ele12.root output_el_2016pre/output_Embedded_2016pre_HLTMu23Ele12.root Embedded HLTMu23Ele12
 python ScaleFactors_el.py --year=2016pre --discriminant=HLTMu23Ele12
 
+# Moving plots to website
+cp plots_el_2016pre/fits*.png /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_2016pre/.
+cp plots_el_2016pre/fits*.pdf /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_2016pre/.
+
+cp plots_el_2016pre/sf*.png /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_2016pre/ScaleFactors/.
+cp plots_el_2016pre/sf*.pdf /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_2016pre/ScaleFactors/.
+
 # ./Fit_el_CMSShape.exe 2016pre ../PrepareHistograms/output_el_2016pre/SingleElectron_HLTEle25.root output_Data_2016pre_HLTEle25.root Data HLTEle25
 # ./Fit_el_CMSShape.exe 2016pre ../PrepareHistograms/output_el_2016pre/DY_HLTEle25.root output_DY_2016pre_HLTEle25.root DY HLTEle25
 # python ScaleFactors_el.py --year=2016pre --discriminant=HLTEle25

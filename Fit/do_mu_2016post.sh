@@ -9,6 +9,13 @@ python ScaleFactors_mu.py --year=2016post --discriminant=HLTMu8Ele23
 ./Fit_mu.exe 2016post ../PrepareHistograms/output_mu_2016post/Embedded_HLTMu23Ele12.root output_mu_2016post/output_Embedded_2016post_HLTMu23Ele12.root Embedded HLTMu23Ele12
 python ScaleFactors_mu.py --year=2016post --discriminant=HLTMu23Ele12
 
+# Moving plots to website
+cp plots_mu_2016post/*.png /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_mu_2016post/.
+cp plots_mu_2016post/*.pdf /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_mu_2016post/.
+
+cp plots_mu_2016post/sf*.png /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_mu_2016post/ScaleFactors/.
+cp plots_mu_2016post/sf*.pdf /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_mu_2016post/ScaleFactors/.
+
 # ./Fit_mu.exe 2016post ../PrepareHistograms/output_mu_2016post/SingleMuon_HLTMu20Tau27.root output_Data_2016post_HLTMu20Tau27.root Data HLTMu20Tau27
 # ./Fit_mu.exe 2016post ../PrepareHistograms/output_mu_2016post/DY_HLTMu20Tau27.root output_DY_2016post_HLTMu20Tau27.root DY HLTMu20Tau27
 # python ScaleFactors_mu.py --year=2016post --discriminant=HLTMu20Tau27

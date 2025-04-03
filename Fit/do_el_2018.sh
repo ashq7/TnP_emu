@@ -11,6 +11,13 @@ python ScaleFactors_el.py --year=2018 --discriminant=HLTMu8Ele23
 ./Fit_el_CMSShape.exe 2018 ../PrepareHistograms/output_el_2018/Embedded_HLTMu23Ele12.root output_el_2018/output_Embedded_2018_HLTMu23Ele12.root Embedded HLTMu23Ele12
 python ScaleFactors_el.py --year=2018 --discriminant=HLTMu23Ele12
 
+# Moving plots to website
+cp plots_el_2018/fits*.png /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_2018/.
+cp plots_el_2018/fits*.pdf /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_2018/.
+
+cp plots_el_2018/sf*.png /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_2018/ScaleFactors/.
+cp plots_el_2018/sf*.pdf /eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_2018/ScaleFactors/.
+
 #./Fit_el_CMSShape.exe 2018 ../PrepareHistograms/output_el_2018/EGamma_antiiso.root output_Data_2018_antiiso.root Data antiiso
 #./Fit_el_CMSShape.exe 2018 ../PrepareHistograms/output_el_2018/DY_antiiso.root output_DY_2018_antiiso.root DY antiiso
 #python ScaleFactors_el.py --year=2018 --discriminant=antiiso
