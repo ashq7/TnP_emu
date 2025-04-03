@@ -282,6 +282,7 @@ for i in range(0,8):
 
    c.Modified()
    c.SaveAs("plots_el_"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".png")
+   c.SaveAs("plots_el_"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".pdf")
 
 
 pad1 = ROOT.TPad("pad1","pad1",0,0.35,1,1)

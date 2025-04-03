@@ -246,14 +246,47 @@ int main(int argc, char** argv) {
           //categ.AddText("eff = "+to_string(efficiency));
   	  //categ.Draw("same");
 
-          if (k==4) c->SaveAs("plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_etalt0p8_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==5) c->SaveAs("plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_eta0p8to1p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==6) c->SaveAs("plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_eta1p5to2p0_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==7) c->SaveAs("plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_eta2p0to2p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==3) c->SaveAs("plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_metalt0p8_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==2) c->SaveAs("plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_meta0p8to1p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==1) c->SaveAs("plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_meta1p5to2p0_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
-          else if (k==0) c->SaveAs("plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_meta2p0to2p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          if (k==4) {
+            c->SaveAs("plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_etalt0p8_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_etalt0p8_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".pdf");
+            //instead of below, I copy to www in bash script
+            //c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_etalt0p8_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
+          else if (k==5) {
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_eta0p8to1p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_eta0p8to1p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".pdf");
+            //c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_eta0p8to1p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
+          else if (k==6) {
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_eta1p5to2p0_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_eta1p5to2p0_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".pdf");
+            //c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_eta1p5to2p0_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
+          else if (k==7) {
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_eta2p0to2p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_eta2p0to2p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".pdf");
+            //c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_eta2p0to2p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
+          else if (k==3) {
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_metalt0p8_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_metalt0p8_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".pdf");
+            //c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_metalt0p8_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
+          else if (k==2) {
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_meta0p8to1p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_meta0p8to1p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".pdf");
+            //c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_meta0p8to1p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
+          else if (k==1) {
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_meta1p5to2p0_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_meta1p5to2p0_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".pdf");
+            //c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_meta1p5to2p0_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
+          else if (k==0) {
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_meta2p0to2p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+            c->SaveAs("plots_el_"+year+"/fits_"+year+sample+"_"+discriminant+"_meta2p0to2p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".pdf");
+            //c->SaveAs("/eos/user/a/aquinn/www/Ha1a2bbtautau/Fit/plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_meta2p0to2p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png");
+          }
 
           if (k==4) cout<<"plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_etalt0p8_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png"<<endl;
           if (k==5) cout<<"plots_el_"+year+"/fits_"+sample+"_"+discriminant+"_eta0p8to1p5_pt"+sbins_pt[j]+"to"+sbins_pt[j+1]+".png"<<endl;
