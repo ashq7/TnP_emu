@@ -2,7 +2,7 @@ from CRABClient.UserUtilities import config#, getUsernameFromCRIC
 
 config = config()
 
-config.General.requestName = "MuonEG_2016postG"
+config.General.requestName = "SingleElectron_2016postG"
 config.General.workArea = "crab_projects"
 config.General.transferLogs = True
 config.General.transferOutputs = True
@@ -12,7 +12,7 @@ config.JobType.psetName = "run_Electron_Data_2016post.py"
 config.JobType.maxMemoryMB = 4000
 #config.JobType.numCores = 8
 
-config.Data.inputDataset = "/MuonEG/Run2016G-UL2016_MiniAODv2-v2/MINIAOD" 
+config.Data.inputDataset = "/SingleElectron/Run2016G-UL2016_MiniAODv2-v2/MINIAOD" 
 config.Data.outLFNDirBase = "/store/user/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/"
 #config.Data.outLFNDirBase = "/store/group/cmst3/user/ccaillol/reNanoAOD/"
 config.Data.outputDatasetTag = "TnP_ntuples_el2016post"

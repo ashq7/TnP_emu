@@ -12,7 +12,7 @@ config.JobType.psetName = "run_Electron_Data_2016pre.py"
 config.JobType.maxMemoryMB = 4000
 #config.JobType.numCores = 8
 
-config.Data.inputDataset = "/MuonEG/Run2016B-ver2_HIPM_UL2016_MiniAODv2-v2/MINIAOD" 
+config.Data.inputDataset = "/SingleElectron/Run2016B-ver2_HIPM_UL2016_MiniAODv2-v2/MINIAOD" 
 config.Data.outLFNDirBase = "/store/user/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/"
 #config.Data.outLFNDirBase = "/store/group/cmst3/user/ccaillol/reNanoAOD/"
 config.Data.outputDatasetTag = "TnP_ntuples_el2016pre"
@@ -23,5 +23,5 @@ config.Data.lumiMask = 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/
 config.Data.publication = False
 config.Data.ignoreLocality = True
 
-config.Site.storageSite =  "T3_CH_CERNBOX"
+config.Site.storageSite = "T3_CH_CERNBOX"
 config.Site.whitelist = ["T2_*","T3_*"]
