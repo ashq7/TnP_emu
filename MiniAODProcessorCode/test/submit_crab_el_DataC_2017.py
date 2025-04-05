@@ -12,7 +12,7 @@ config.JobType.psetName = "run_Electron_Data_2017.py"
 config.JobType.maxMemoryMB = 4000
 #config.JobType.numCores = 8
 
-config.Data.inputDataset = "/MuonEG/Run2017C-UL2017_MiniAODv2-v1/MINIAOD" 
+config.Data.inputDataset = "/SingleElectron/Run2017C-UL2017_MiniAODv2-v1/MINIAOD" 
 config.Data.outLFNDirBase = "/store/user/aquinn/Ha1a2bbtautau_05Jul24/CrabOutput/"
 #config.Data.outLFNDirBase = "/store/group/cmst3/user/ccaillol/reNanoAOD/"
 config.Data.outputDatasetTag = "TnP_ntuples_el2017"
