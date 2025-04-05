@@ -10,11 +10,11 @@ int plotTH2Ds_el(void) {
 
     //Toggle menu (either/or):
     //TString year = "2016pre";
-    TString year = "2016post";
-    //TString year = "2017";
+    //TString year = "2016post";
+    TString year = "2017";
     //TString year = "2018";
 
-    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/Dec26/"+ year +"/electron/";
+    TString outputPath = "/eos/user/a/aquinn/Ha1a2bbtautau_05Jul24/CMSSW_10_6_27/src/TnP_emu/Fit/RootHistograms/05Apr25/"+ year +"/electron/";
 
     //first cross-trigger: HLTMu8Ele23
     TString path = "sf_el_" + year + "_" + firstHLTPath + ".root";
