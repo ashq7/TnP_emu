@@ -6,6 +6,7 @@ from array import array
 
 is_datadriven=1
 
+#helper functions
 def add_lumi(year):
     lowX=0.55
     lowY=0.835
@@ -59,13 +60,14 @@ def make_legend():
 
 ROOT.gStyle.SetOptStat(0)
 
+#Argument parsing
 parser = argparse.ArgumentParser()
 parser.add_argument('--year', '-y', default=None, help='Output name')
 parser.add_argument('--discriminant', '-d', default=None)
 #parser.add_argument('--time', '-t', default=None)
 args = parser.parse_args()
 
-
+#Canvas/file loading
 c=ROOT.TCanvas("canvas","",0,0,800,800)
 # for embedded
 c2=ROOT.TCanvas("canvas2","",0,0,800,800)
@@ -120,6 +122,7 @@ eff2D_embedded.Write()
 #bins_pt=[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,35,40,50,60,70,80,90,100,120,150]
 #nb_bins=27
 
+#Define binning
 bins_pt=[15,20,35,50,75,100,200]
 nb_bins=6
 
@@ -132,11 +135,15 @@ if args.discriminant=="HLTMu8Ele23": bins_pt[1]=24
 if args.discriminant=="HLTEle25": bins_pt[1]=26
 
 eff_data=[]
-sf=[]
+sf_mc=[]
+sf_embedded=[]
 
 eff_data_eta=[]
-sf_eta=[]
+sf_mc_eta=[]
+sf_embedded_eta=[]
 
+# first for loop for mc
+# loops over pt bins to extract 1D eta distributions of efficiency for data and MC
 for i in range(0,8):
 
    eff1D_data_eta=ROOT.TH1F("eff1_data_eta","eff1D_data_eta",nb_bins_eta,array('d',bins_eta))
@@ -193,8 +200,10 @@ for i in range(0,8):
    ratio_eta_mc.GetYaxis().SetTitleFont(42)
    ratio_eta_mc.SetMinimum(0.78)
    ratio_eta_mc.SetMaximum(1.12)
-   sf_eta.append(ratio_eta_mc.Clone())
+   sf_eta_mc.append(ratio_eta_mc.Clone())
 
+# loops over eta bins to extract 1D Pt eficiency for data and MC
+# computes data/MC SFs and draw ratio plots 
 for i in range(0,8):
    
    eff1D_data=ROOT.TH1F("eff1_data","eff1D_data",nb_bins,array('d',bins_pt))
@@ -284,7 +293,7 @@ for i in range(0,8):
    ratio_mc.Draw("hist")
    ratio_mc.Draw("esame")
    
-   sf.append(ratio_mc.Clone())
+   sf_mc.append(ratio_mc.Clone())
 
    c.cd()
    pad1.Draw()
@@ -296,6 +305,8 @@ for i in range(0,8):
    #c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_mc.pdf")
 
 #Embedded for loops
+# loops over Pt bins for eta plots
+# lazy and called ratio_eta but really embedded
 for i in range(0,8):
 
    eff1D_data_eta=ROOT.TH1F("eff1_data_eta","eff1D_data_eta",nb_bins_eta,array('d',bins_eta))
@@ -352,9 +363,10 @@ for i in range(0,8):
    ratio_eta.GetYaxis().SetTitleFont(42)
    ratio_eta.SetMinimum(0.78)
    ratio_eta.SetMaximum(1.12)
-   sf_eta.append(ratio_eta.Clone())
+   sf_embedded_eta.append(ratio_eta.Clone())
 
 #second for loop within embedded
+# loops over eta bins (?)
 for i in range(0,8):
    
    eff1D_data=ROOT.TH1F("eff1_data","eff1D_data",nb_bins,array('d',bins_pt))
@@ -444,7 +456,7 @@ for i in range(0,8):
    ratio_embedded.Draw("hist")
    ratio_embedded.Draw("esame")
    
-   sf.append(ratio_embedded.Clone())
+   sf_embedded.append(ratio_embedded.Clone())
 
    c2.cd()
    pad1.Draw()
@@ -532,45 +544,81 @@ pad2.Draw()
 pad2.SetLogx()
 pad2.cd()
 
-sf[3].Add(sf[4])
-sf[2].Add(sf[5])
-sf[1].Add(sf[6])
-sf[0].Add(sf[7])
-sf[0].Scale(0.5)
-sf[1].Scale(0.5)
-sf[2].Scale(0.5)
-sf[3].Scale(0.5)
-sf[3].SetLineColor(ROOT.kBlack)
-sf[3].SetMarkerColor(ROOT.kBlack)
-sf[3].SetMarkerStyle(20)
-sf[3].SetLineWidth(3)
-sf[2].SetLineColor(ROOT.kGray+1)
-sf[2].SetMarkerColor(ROOT.kGray+1)
-sf[2].SetMarkerStyle(20)
-sf[2].SetLineWidth(3)
-sf[1].SetLineColor(ROOT.kRed+1)
-sf[1].SetMarkerColor(ROOT.kRed+1)
-sf[1].SetMarkerStyle(20)
-sf[1].SetLineWidth(3)
-sf[0].SetLineColor(ROOT.kRed-2)
-sf[0].SetMarkerColor(ROOT.kRed-2)
-sf[0].SetMarkerStyle(20)
-sf[0].SetLineWidth(3)
+sf_mc[3].Add(sf_mc[4])
+sf_mc[2].Add(sf_mc[5])
+sf_mc[1].Add(sf_mc[6])
+sf_mc[0].Add(sf_mc[7])
+sf_mc[0].Scale(0.5)
+sf_mc[1].Scale(0.5)
+sf_mc[2].Scale(0.5)
+sf_mc[3].Scale(0.5)
+sf_mc[3].SetLineColor(ROOT.kBlack)
+sf_mc[3].SetMarkerColor(ROOT.kBlack)
+sf_mc[3].SetMarkerStyle(20)
+sf_mc[3].SetLineWidth(3)
+sf_mc[2].SetLineColor(ROOT.kGray+1)
+sf_mc[2].SetMarkerColor(ROOT.kGray+1)
+sf_mc[2].SetMarkerStyle(20)
+sf_mc[2].SetLineWidth(3)
+sf_mc[1].SetLineColor(ROOT.kRed+1)
+sf_mc[1].SetMarkerColor(ROOT.kRed+1)
+sf_mc[1].SetMarkerStyle(20)
+sf_mc[1].SetLineWidth(3)
+sf_mc[0].SetLineColor(ROOT.kRed-2)
+sf_mc[0].SetMarkerColor(ROOT.kRed-2)
+sf_mc[0].SetMarkerStyle(20)
+sf_mc[0].SetLineWidth(3)
 
-sf[3].SetMaximum(1.12)
-sf[3].SetMinimum(0.78)
-sf[3].Draw("ep")
-sf[1].Draw("epsame")
-sf[2].Draw("epsame")
-sf[3].Draw("epsame")
-sf[0].Draw("epsame")
+sf_mc[3].SetMaximum(1.12)
+sf_mc[3].SetMinimum(0.78)
+sf_mc[3].Draw("ep")
+sf_mc[1].Draw("epsame")
+sf_mc[2].Draw("epsame")
+sf_mc[3].Draw("epsame")
+sf_mc[0].Draw("epsame")
+
+sf_embedded[3].Add(sf_embedded[4])
+sf_embedded[2].Add(sf_embedded[5])
+sf_embedded[1].Add(sf_embedded[6])
+sf_embedded[0].Add(sf_embedded[7])
+sf_embedded[0].Scale(0.5)
+sf_embedded[1].Scale(0.5)
+sf_embedded[2].Scale(0.5)
+sf_embedded[3].Scale(0.5)
+sf_embedded[3].SetLineColor(ROOT.kBlack)
+sf_embedded[3].SetMarkerColor(ROOT.kBlack)
+sf_embedded[3].SetMarkerStyle(20)
+sf_embedded[3].SetLineWidth(3)
+sf_embedded[2].SetLineColor(ROOT.kGray+1)
+sf_embedded[2].SetMarkerColor(ROOT.kGray+1)
+sf_embedded[2].SetMarkerStyle(20)
+sf_embedded[2].SetLineWidth(3)
+sf_embedded[1].SetLineColor(ROOT.kRed+1)
+sf_embedded[1].SetMarkerColor(ROOT.kRed+1)
+sf_embedded[1].SetMarkerStyle(20)
+sf_embedded[1].SetLineWidth(3)
+sf_embedded[0].SetLineColor(ROOT.kRed-2)
+sf_embedded[0].SetMarkerColor(ROOT.kRed-2)
+sf_embedded[0].SetMarkerStyle(20)
+sf_embedded[0].SetLineWidth(3)
+
+sf_embedded[3].SetMaximum(1.12)
+sf_embedded[3].SetMinimum(0.78)
+sf_embedded[3].Draw("ep")
+sf_embedded[1].Draw("epsame")
+sf_embedded[2].Draw("epsame")
+sf_embedded[3].Draw("epsame")
+sf_embedded[0].Draw("epsame")
 
 c2.cd()
 pad1.Draw()
 ROOT.gPad.RedrawAxis()
 c.Modified()
-c.SaveAs("plots_el_"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+".png")
-c.SaveAs("plots_el_"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+".pdf")
+c.SaveAs("plots_el_mc"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+".png")
+c.SaveAs("plots_el_mc"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+".pdf")
+
+c2.SaveAs("plots_el_embedded"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+".png")
+c2.SaveAs("plots_el_embedded"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+".pdf")
 
 
 
