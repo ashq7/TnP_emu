@@ -6,6 +6,7 @@ from array import array
 
 is_datadriven=1
 
+#define functions
 def add_lumi(year):
     lowX=0.55
     lowY=0.835
@@ -59,6 +60,7 @@ def make_legend():
 
 ROOT.gStyle.SetOptStat(0)
 
+# arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--year', '-y', default=None, help='Output name')
 parser.add_argument('--discriminant', '-d', default=None)
@@ -68,6 +70,7 @@ args = parser.parse_args()
 c=ROOT.TCanvas("canvas","",0,0,800,800)
 c.cd()
 
+#files
 file_data=ROOT.TFile("output_mu_"+args.year+"/output_Data_"+args.year+"_"+args.discriminant+".root","r")
 file_mc=ROOT.TFile("output_mu_"+args.year+"/output_DY_"+args.year+"_"+args.discriminant+".root","r")
 file_embedded=ROOT.TFile("output_mu_"+args.year+"/output_Embedded_"+args.year+"_"+args.discriminant+".root","r")
@@ -129,21 +132,27 @@ bins_eta=[0.0,0.9,1.2,2.1,2.4]
 nb_bins_eta=4
 
 eff_data=[]
-sf=[]
+sf_mc=[]
+sf_embedded=[]
 
 eff_data_eta=[]
-sf_eta=[]
+sf_mc_eta=[]
+sf_embedded_eta=[]
 
+#making eta plots
 for i in range(0,7):
 
    eff1D_data_eta=ROOT.TH1F("eff1_data_eta","eff1D_data_eta",nb_bins_eta,array('d',bins_eta))
    eff1D_mc_eta=ROOT.TH1F("eff1_mc_eta","eff1D_mc_eta",nb_bins_eta,array('d',bins_eta))
+   eff1D_embedded_eta=ROOT.TH1F("eff1_embedded_eta","eff1D_embedded_eta",nb_bins_eta,array('d',bins_eta))
 
    for k in range(0,nb_bins_eta):
       eff1D_data_eta.SetBinContent(k+1,eff2D_data.GetBinContent(i+1,k+1))
       eff1D_mc_eta.SetBinContent(k+1,eff2D_mc.GetBinContent(i+1,k+1))
+      eff1D_embedded_eta.SetBinContent(k+1,eff2D_embedded.GetBinContent(i+1,k+1))
       eff1D_data_eta.SetBinError(k+1,eff2D_data.GetBinError(i+1,k+1))
       eff1D_mc_eta.SetBinError(k+1,eff2D_mc.GetBinError(i+1,k+1))
+      eff1D_embedded_eta.SetBinError(k+1,eff2D_embedded.GetBinError(i+1,k+1))
 
    eff1D_mc_eta.GetXaxis().SetTitle("")
    eff1D_mc_eta.GetXaxis().SetTitleSize(0)
@@ -158,56 +167,108 @@ for i in range(0,7):
    eff1D_mc_eta.SetLineColor(1)
    eff1D_mc_eta.SetLineWidth(3)
 
+   eff1D_embedded_eta.GetXaxis().SetTitle("")
+   eff1D_embedded_eta.GetXaxis().SetTitleSize(0)
+   eff1D_embedded_eta.GetXaxis().SetNdivisions(505)
+   eff1D_embedded_eta.GetYaxis().SetLabelFont(42)
+   eff1D_embedded_eta.GetYaxis().SetLabelOffset(0.01)
+   eff1D_embedded_eta.GetYaxis().SetLabelSize(0.06)
+   eff1D_embedded_eta.GetYaxis().SetTitleSize(0.075)
+   eff1D_embedded_eta.GetYaxis().SetTitleOffset(1.04)
+   eff1D_embedded_eta.SetTitle("")
+   eff1D_embedded_eta.GetYaxis().SetTitle("Events/bin")
+   eff1D_embedded_eta.SetLineColor(1)
+   eff1D_embedded_eta.SetLineWidth(3)
+
    eff1D_data_eta.SetLineColor(2)
    eff1D_data_eta.SetLineWidth(3)
 
    eff_data_eta.append(eff1D_data_eta.Clone())
 
-   ratio_eta=eff1D_data_eta.Clone()
-   ratio_eta.Sumw2()
-   ratio_eta.Divide(eff1D_mc_eta)
+   ratio_mc_eta=eff1D_data_eta.Clone()
+   ratio_mc_eta.Sumw2()
+   ratio_mc_eta.Divide(eff1D_mc_eta)
 
-   ratio_eta.SetTitle("")
-   ratio_eta.GetXaxis().SetTitle("Supercluster #eta")
-   ratio_eta.GetYaxis().SetTitle("SF")
-   ratio_eta.GetXaxis().SetNdivisions(515)
-   ratio_eta.GetYaxis().SetNdivisions(505)
-   ratio_eta.GetXaxis().SetTitleSize(0.15)
-   ratio_eta.GetYaxis().SetTitleSize(0.15)
-   ratio_eta.GetYaxis().SetTitleOffset(0.56)
-   ratio_eta.GetXaxis().SetTitleOffset(1.04)
-   ratio_eta.GetXaxis().SetLabelSize(0.11)
-   ratio_eta.GetYaxis().SetLabelSize(0.11)
-   ratio_eta.GetXaxis().SetTitleFont(42)
-   ratio_eta.GetYaxis().SetTitleFont(42)
-   ratio_eta.SetMinimum(0.78)
-   ratio_eta.SetMaximum(1.12)
-   sf_eta.append(ratio_eta.Clone())
+   ratio_embedded_eta=eff1D_data_eta.Clone()
+   ratio_embedded_eta.Sumw2()
+   ratio_embedded_eta.Divide(eff1D_mc_eta)
 
+   ratio_mc_eta.SetTitle("")
+   ratio_mc_eta.GetXaxis().SetTitle("Supercluster #eta")
+   ratio_mc_eta.GetYaxis().SetTitle("SF")
+   ratio_mc_eta.GetXaxis().SetNdivisions(515)
+   ratio_mc_eta.GetYaxis().SetNdivisions(505)
+   ratio_mc_eta.GetXaxis().SetTitleSize(0.15)
+   ratio_mc_eta.GetYaxis().SetTitleSize(0.15)
+   ratio_mc_eta.GetYaxis().SetTitleOffset(0.56)
+   ratio_mc_eta.GetXaxis().SetTitleOffset(1.04)
+   ratio_mc_eta.GetXaxis().SetLabelSize(0.11)
+   ratio_mc_eta.GetYaxis().SetLabelSize(0.11)
+   ratio_mc_eta.GetXaxis().SetTitleFont(42)
+   ratio_mc_eta.GetYaxis().SetTitleFont(42)
+   ratio_mc_eta.SetMinimum(0.78)
+   ratio_mc_eta.SetMaximum(1.12)
+   sf_mc_eta.append(ratio_mc_eta.Clone())
 
+   ratio_embedded_eta.SetTitle("")
+   ratio_embedded_eta.GetXaxis().SetTitle("Supercluster #eta")
+   ratio_embedded_eta.GetYaxis().SetTitle("SF")
+   ratio_embedded_eta.GetXaxis().SetNdivisions(515)
+   ratio_embedded_eta.GetYaxis().SetNdivisions(505)
+   ratio_embedded_eta.GetXaxis().SetTitleSize(0.15)
+   ratio_embedded_eta.GetYaxis().SetTitleSize(0.15)
+   ratio_embedded_eta.GetYaxis().SetTitleOffset(0.56)
+   ratio_embedded_eta.GetXaxis().SetTitleOffset(1.04)
+   ratio_embedded_eta.GetXaxis().SetLabelSize(0.11)
+   ratio_embedded_eta.GetYaxis().SetLabelSize(0.11)
+   ratio_embedded_eta.GetXaxis().SetTitleFont(42)
+   ratio_embedded_eta.GetYaxis().SetTitleFont(42)
+   ratio_embedded_eta.SetMinimum(0.78)
+   ratio_embedded_eta.SetMaximum(1.12)
+   sf_embedded_eta.append(ratio_embedded_eta.Clone())
+
+#1D efficiency plots
 for i in range(0,4):
    
    eff1D_data=ROOT.TH1F("eff1_data","eff1D_data",nb_bins,array('d',bins_pt))
    eff1D_mc=ROOT.TH1F("eff1_mc","eff1D_mc",nb_bins,array('d',bins_pt))
+   eff1D_embedded=ROOT.TH1F("eff1_embedded","eff1D_embedded",nb_bins,array('d',bins_pt))
 
    for k in range(0,nb_bins):
       eff1D_data.SetBinContent(k+1,eff2D_data.GetBinContent(k+1,i+1))
       eff1D_mc.SetBinContent(k+1,eff2D_mc.GetBinContent(k+1,i+1))
+      eff1D_embedded.SetBinContent(k+1,eff2D_embedded.GetBinContent(k+1,i+1))
       eff1D_data.SetBinError(k+1,eff2D_data.GetBinError(k+1,i+1))
       eff1D_mc.SetBinError(k+1,eff2D_mc.GetBinError(k+1,i+1))
+      eff1D_embedded.SetBinError(k+1,eff2D_embedded.GetBinError(k+1,i+1))
 
    eff1D_mc.GetXaxis().SetTitle("")
    eff1D_mc.GetXaxis().SetTitleSize(0)
    eff1D_mc.GetXaxis().SetNdivisions(505)
+   eff1D_mc.GetYaxis().SetTitle("Data Efficiency")
    eff1D_mc.GetYaxis().SetLabelFont(42)
    eff1D_mc.GetYaxis().SetLabelOffset(0.01)
    eff1D_mc.GetYaxis().SetLabelSize(0.06)
-   eff1D_mc.GetYaxis().SetTitleSize(0.075)
-   eff1D_mc.GetYaxis().SetTitleOffset(1.04)
+   eff1D_mc.GetYaxis().SetTitleSize(0.06)
+   eff1D_mc.GetYaxis().SetTitleOffset(1.2)
    eff1D_mc.SetTitle("")
    eff1D_mc.GetYaxis().SetTitle("Events/bin")
    eff1D_mc.SetLineColor(1)
    eff1D_mc.SetLineWidth(3)
+
+   eff1D_embedded.GetXaxis().SetTitle("")
+   eff1D_embedded.GetXaxis().SetTitleSize(0)
+   eff1D_embedded.GetXaxis().SetNdivisions(505)
+   eff1D_embedded.GetYaxis().SetTitle("Data Efficiency")
+   eff1D_embedded.GetYaxis().SetLabelFont(42)
+   eff1D_embedded.GetYaxis().SetLabelOffset(0.01)
+   eff1D_embedded.GetYaxis().SetLabelSize(0.06)
+   eff1D_embedded.GetYaxis().SetTitleSize(0.06)
+   eff1D_embedded.GetYaxis().SetTitleOffset(1.2)
+   eff1D_embedded.SetTitle("")
+   eff1D_embedded.GetYaxis().SetTitle("Events/bin")
+   eff1D_embedded.SetLineColor(1)
+   eff1D_embedded.SetLineWidth(3)
 
    eff1D_data.SetLineColor(2)
    eff1D_data.SetLineWidth(3)
@@ -251,30 +312,56 @@ for i in range(0,4):
    pad2.SetLogx()
    pad2.cd()
 
-   ratio=eff1D_data.Clone()
-   ratio.Sumw2()
-   ratio.Divide(eff1D_mc)
+   ratio_mc=eff1D_data.Clone()
+   ratio_mc.Sumw2()
+   ratio_mc.Divide(eff1D_mc)
 
-   ratio.SetTitle("")
-   ratio.GetXaxis().SetTitle("p_{T} (GeV)")
-   ratio.GetYaxis().SetTitle("SF")
-   ratio.GetXaxis().SetNdivisions(515)
-   ratio.GetYaxis().SetNdivisions(505)
-   ratio.GetXaxis().SetTitleSize(0.15)
-   ratio.GetYaxis().SetTitleSize(0.15)
-   ratio.GetYaxis().SetTitleOffset(0.56)
-   ratio.GetXaxis().SetTitleOffset(1.04)
-   ratio.GetXaxis().SetLabelSize(0.11)
-   ratio.GetYaxis().SetLabelSize(0.11)
-   ratio.GetXaxis().SetTitleFont(42)
-   ratio.GetYaxis().SetTitleFont(42)
-   ratio.SetMinimum(0.78)
-   ratio.SetMaximum(1.12)
+   ratio_mc.SetTitle("")
+   ratio_mc.GetXaxis().SetTitle("p_{T} (GeV)")
+   ratio_mc.GetYaxis().SetTitle("SF")
+   ratio_mc.GetXaxis().SetNdivisions(515)
+   ratio_mc.GetYaxis().SetNdivisions(505)
+   ratio_mc.GetXaxis().SetTitleSize(0.11)
+   ratio_mc.GetYaxis().SetTitleSize(0.11)
+   ratio_mc.GetYaxis().SetTitleOffset(0.56)
+   ratio_mc.GetXaxis().SetTitleOffset(1.04)
+   ratio_mc.GetXaxis().SetLabelSize(0.11)
+   ratio_mc.GetYaxis().SetLabelSize(0.11)
+   ratio_mc.GetXaxis().SetTitleFont(42)
+   ratio_mc.GetYaxis().SetTitleFont(42)
+   ratio_mc.SetMinimum(0.78)
+   ratio_mc.SetMaximum(1.12)
 
-   ratio.Draw("hist")
-   ratio.Draw("esame")
+   ratio_mc.Draw("hist")
+   ratio_mc.Draw("esame")
    
-   sf.append(ratio.Clone())
+   sf_mc.append(ratio_mc.Clone())
+
+   #embedded ratio
+   ratio_embedded=eff1D_data.Clone()
+   ratio_embedded.Sumw2()
+   ratio_embedded.Divide(eff1D_embedded)
+
+   ratio_embedded.SetTitle("")
+   ratio_embedded.GetXaxis().SetTitle("p_{T} (GeV)")
+   ratio_embedded.GetYaxis().SetTitle("SF")
+   ratio_embedded.GetXaxis().SetNdivisions(515)
+   ratio_embedded.GetYaxis().SetNdivisions(505)
+   ratio_embedded.GetXaxis().SetTitleSize(0.11)
+   ratio_embedded.GetYaxis().SetTitleSize(0.11)
+   ratio_embedded.GetYaxis().SetTitleOffset(0.6)
+   ratio_embedded.GetXaxis().SetTitleOffset(1.04)
+   ratio_embedded.GetXaxis().SetLabelSize(0.11)
+   ratio_embedded.GetYaxis().SetLabelSize(0.11)
+   ratio_embedded.GetXaxis().SetTitleFont(42)
+   ratio_embedded.GetYaxis().SetTitleFont(42)
+   ratio_embedded.SetMinimum(0.78)
+   ratio_embedded.SetMaximum(1.12)
+
+   ratio_embedded.Draw("hist")
+   ratio_embedded.Draw("esame")
+   
+   sf_embedded.append(ratio_embedded.Clone())
 
    c.cd()
    pad1.Draw()
@@ -282,8 +369,8 @@ for i in range(0,4):
    ROOT.gPad.RedrawAxis()
 
    c.Modified()
-   c.SaveAs("plots_mu_"+args.year+"/sf_mu_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".png")
-   c.SaveAs("plots_mu_"+args.year+"/sf_mu_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".pdf")
+   #c.SaveAs("plots_mu_"+args.year+"/sf_mu_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".png")
+   #c.SaveAs("plots_mu_"+args.year+"/sf_mu_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".pdf")
 
 
 pad1 = ROOT.TPad("pad1","pad1",0,0.35,1,1)
@@ -355,35 +442,89 @@ pad2.Draw()
 pad2.SetLogx()
 pad2.cd()
 
-sf[0].SetLineColor(ROOT.kBlack)
-sf[0].SetMarkerColor(ROOT.kBlack)
-sf[0].SetMarkerStyle(20)
-sf[0].SetLineWidth(3)
-sf[1].SetLineColor(ROOT.kBlue+1)
-sf[1].SetMarkerColor(ROOT.kBlue+1)
-sf[1].SetMarkerStyle(20)
-sf[1].SetLineWidth(3)
-sf[2].SetLineColor(ROOT.kOrange+1)
-sf[2].SetMarkerColor(ROOT.kOrange+1)
-sf[2].SetMarkerStyle(20)
-sf[2].SetLineWidth(3)
-sf[3].SetLineColor(ROOT.kGreen-2)
-sf[3].SetMarkerColor(ROOT.kGreen-2)
-sf[3].SetMarkerStyle(20)
-sf[3].SetLineWidth(3)
+def plot_sf_comparison(sf_list, label, output_name):
+    # Prepare canvas
+    c.Clear()
+    pad1 = ROOT.TPad("pad1","pad1",0,0.35,1,1)
+    pad1.Draw()
+    pad1.cd()
+    pad1.SetFillColor(0)
+    pad1.SetBorderMode(0)
+    pad1.SetBorderSize(10)
+    pad1.SetTickx(1)
+    pad1.SetTicky(1)
+    pad1.SetLeftMargin(0.18)
+    pad1.SetRightMargin(0.05)
+    pad1.SetTopMargin(0.122)
+    pad1.SetBottomMargin(0.026)
+    pad1.SetFrameFillStyle(0)
+    pad1.SetFrameLineStyle(0)
+    pad1.SetFrameBorderMode(0)
+    pad1.SetFrameBorderSize(10)
+    pad1.SetLogx()
 
-sf[0].Draw("ep")
-sf[1].Draw("epsame")
-sf[2].Draw("epsame")
-sf[3].Draw("epsame")
-sf[0].Draw("epsame")
+    # Merge and style
+   #  sf_list[3].Add(sf_list[4])
+   #  sf_list[2].Add(sf_list[5])
+   #  sf_list[1].Add(sf_list[6])
+   #  sf_list[0].Add(sf_list[7])
+    #for i in range(4):
+        #sf_list[i].Scale(0.5)
 
-c.cd()
-pad1.Draw()
-ROOT.gPad.RedrawAxis()
-c.Modified()
-c.SaveAs("plots_mu_"+args.year+"/sf_mu_"+args.year+"_"+args.discriminant+".png")
+    colors = [ROOT.kRed-2, ROOT.kRed+1, ROOT.kGray+1, ROOT.kBlack]
+    for i, h in enumerate(sf_list[:4]):
+        h.SetLineColor(colors[i])
+        h.SetMarkerColor(colors[i])
+        h.SetMarkerStyle(20)
+        h.SetLineWidth(3)
 
+    # Draw the plots
+    sf_list[3].SetMaximum(1.12)
+    sf_list[3].SetMinimum(0.78)
+    sf_list[3].SetTitle("")
+    sf_list[3].GetYaxis().SetTitle("Data Efficiency")
+    sf_list[3].GetYaxis().SetTitleOffset(1)  # adjust as needed
+    sf_list[3].GetYaxis().SetTitleSize(0.06)
+    sf_list[3].GetYaxis().SetLabelSize(0.06)
+    
+    sf_list[3].Draw("ep")
+    for i in [1, 2, 0]:  # Keep draw order clean
+        sf_list[i].Draw("epsame")
+
+    legende = make_legend()
+    legende.AddEntry(sf_list[3],"0.000 < |#eta| < 0.800","ep")
+    legende.AddEntry(sf_list[2],"0.800 < |#eta| < 1.444","ep")
+    legende.AddEntry(sf_list[1],"1.566 < |#eta| < 2.000","ep")
+    legende.AddEntry(sf_list[0],"2.000 < |#eta| < 2.500","ep")
+    legende.Draw("same")
+
+    # Lower pad
+    c.cd()
+    pad2 = ROOT.TPad("pad2","pad2",0,0,1,0.35)
+    pad2.SetTopMargin(0.05)
+    pad2.SetBottomMargin(0.35)
+    pad2.SetLeftMargin(0.18)
+    pad2.SetRightMargin(0.05)
+    pad2.SetTickx(1)
+    pad2.SetTicky(1)
+    pad2.SetGridx()
+    pad2.SetGridy()
+    pad2.Draw()
+    pad2.SetLogx()
+    pad2.cd()
+
+    for h in sf_list[:4]:
+        h.Draw("epsame")
+
+    c.cd()
+    pad1.Draw()
+    ROOT.gPad.RedrawAxis()
+    c.Modified()
+    c.SaveAs("forAN/plots_mu_{}/{}.png".format(args.year, output_name))
+    c.SaveAs("forAN/plots_mu_{}/{}.pdf".format(args.year, output_name))
+
+plot_sf_comparison(sf_mc, "MC Scale Factors", "sf_mu_mc_{}_{}".format(args.year, args.discriminant))
+plot_sf_comparison(sf_embedded, "Embedded Scale Factors", "sf_mu_embedded_{}_{}".format(args.year, args.discriminant))
 
 file_out.cd()
 eff_data_eta[0].SetName("eff_eta_pt15to24")

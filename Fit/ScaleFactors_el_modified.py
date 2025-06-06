@@ -62,7 +62,7 @@ ROOT.gStyle.SetOptStat(0)
 parser = argparse.ArgumentParser()
 parser.add_argument('--year', '-y', default=None, help='Output name')
 parser.add_argument('--discriminant', '-d', default=None)
-parser.add_argument('--time', '-t', default=None)
+#parser.add_argument('--time', '-t', default=None)
 args = parser.parse_args()
 
 
@@ -292,8 +292,8 @@ for i in range(0,8):
    ROOT.gPad.RedrawAxis()
 
    c.Modified()
-   c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_mc.png")
-   c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_mc.pdf")
+   #c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_mc.png")
+   #c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_mc.pdf")
 
 #Embedded for loops
 for i in range(0,8):
@@ -452,8 +452,8 @@ for i in range(0,8):
    ROOT.gPad.RedrawAxis()
 
    c2.Modified()
-   c2.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_embedded.png")
-   c2.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_embedded.pdf")
+   #c2.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_embedded.png")
+   #c2.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_embedded.pdf")
 
 pad1 = ROOT.TPad("pad1","pad1",0,0.35,1,1)
 pad1.Draw()
@@ -569,7 +569,8 @@ c2.cd()
 pad1.Draw()
 ROOT.gPad.RedrawAxis()
 c.Modified()
-c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+".png")
+c.SaveAs("plots_el_"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+".png")
+c.SaveAs("plots_el_"+args.year+"/sf_el_"+args.year+"_"+args.discriminant+".pdf")
 
 
 
@@ -744,5 +745,6 @@ c.cd()
 pad1.Draw()
 ROOT.gPad.RedrawAxis()
 c.Modified()
-c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_eta_"+args.year+"_"+args.discriminant+".png")
+#c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_eta_"+args.year+"_"+args.discriminant+".png")
+#c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_eta_"+args.year+"_"+args.discriminant+".pdf")
 
