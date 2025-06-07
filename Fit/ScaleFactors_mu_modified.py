@@ -64,29 +64,27 @@ ROOT.gStyle.SetOptStat(0)
 parser = argparse.ArgumentParser()
 parser.add_argument('--year', '-y', default=None, help='Output name')
 parser.add_argument('--discriminant', '-d', default=None)
-#parser.add_argument('--time', '-t', default=None)
 args = parser.parse_args()
 
 #Canvas/file loading
 c=ROOT.TCanvas("canvas","",0,0,800,800)
 # for embedded
 c2=ROOT.TCanvas("canvas2","",0,0,800,800)
-c.cd()
 
-file_data=ROOT.TFile("output_el_"+args.year+"/output_Data_"+args.year+"_"+args.discriminant+".root","r")
-file_mc=ROOT.TFile("output_el_"+args.year+"/output_DY_"+args.year+"_"+args.discriminant+".root","r")
-file_embedded=ROOT.TFile("output_el_"+args.year+"/output_Embedded_"+args.year+"_"+args.discriminant+".root","r")
+file_data=ROOT.TFile("output_mu_"+args.year+"/output_Data_"+args.year+"_"+args.discriminant+".root","r")
+file_mc=ROOT.TFile("output_mu_"+args.year+"/output_DY_"+args.year+"_"+args.discriminant+".root","r")
+file_embedded=ROOT.TFile("output_mu_"+args.year+"/output_Embedded_"+args.year+"_"+args.discriminant+".root","r")
 
-eff2D_data=file_data.Get("eff")
+eff2D_data=file_data.Get("eff") #efficiency that comes in root files is 2D
 eff2D_mc=file_mc.Get("eff")
 eff2D_embedded=file_embedded.Get("eff")
 
-file_out=ROOT.TFile("sf_el_"+args.year+"_"+args.discriminant+".root","recreate")
+file_out=ROOT.TFile("sf_mu_"+args.year+"_"+args.discriminant+".root","recreate")
 file_out.cd()
 
 #create SF2D for Monte Carlo
 sf2D_mc=eff2D_data.Clone()
-sf2D_mc.Divide(eff2D_mc)
+sf2D_mc.Divide(eff2D_mc) #SF = data/mc
 sf2D_mc.SetName("SF2D_mc")
 sf2D_mc.SetTitle("SF2D_mc_"+args.discriminant)
 sf2D_mc.GetXaxis().SetTitle("p_{T} (GeV)")
@@ -122,19 +120,20 @@ eff2D_embedded.Write()
 #bins_pt=[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,35,40,50,60,70,80,90,100,120,150]
 #nb_bins=27
 
-#Define pt binning
-bins_pt=[15,20,35,50,75,100,200]
-nb_bins=6
+#bins_pt=[10,20,35,50,100,200,500]
+#nb_bins=6
+
+#Define pt binning (different from electron!)
+nb_bins=7;
+bins_pt=[15,24,30,40,50,60,120,200]
 
 #exceptions
-if args.discriminant=="HLTEle32": bins_pt[2]=33
-if args.discriminant=="HLTEle24Tau30": bins_pt[1]=25
-if args.discriminant=="HLTMu8Ele23": bins_pt[1]=24
-if args.discriminant=="HLTEle25": bins_pt[1]=26
+if args.discriminant=="HLTIsoMu24": bins_pt[1]=26
+if args.discriminant=="HLTMu20Tau27": bins_pt[1]=21
 
-#Define eta binning
-bins_eta=[-2.5,-2.0,-1.5,-0.8,0.0,0.8,1.5,2.0,2.5]
-nb_bins_eta=8
+#Define eta binning (different from electron!)
+bins_eta=[0.0,0.9,1.2,2.1,2.4]
+nb_bins_eta=4
 
 #create efficiency and sf arrays
 eff_data=[]
@@ -147,13 +146,13 @@ sf_embedded_eta=[]
 
 # first for loop for mc
 # loops over pt bins to extract 1D eta distributions of efficiency for data and MC
-for i in range(0,8):
+for i in range(0,7):
 
    eff1D_data_eta=ROOT.TH1F("eff1_data_eta","eff1D_data_eta",nb_bins_eta,array('d',bins_eta))
    eff1D_mc_eta=ROOT.TH1F("eff1_mc_eta","eff1D_mc_eta",nb_bins_eta,array('d',bins_eta))
 
    for k in range(0,nb_bins_eta):
-      eff1D_data_eta.SetBinContent(k+1,eff2D_data.GetBinContent(i+1,k+1))
+      eff1D_data_eta.SetBinContent(k+1,eff2D_data.GetBinContent(i+1,k+1)) #QUESTION: what are we doing here
       eff1D_mc_eta.SetBinContent(k+1,eff2D_mc.GetBinContent(i+1,k+1))
       eff1D_data_eta.SetBinError(k+1,eff2D_data.GetBinError(i+1,k+1))
       eff1D_mc_eta.SetBinError(k+1,eff2D_mc.GetBinError(i+1,k+1))
@@ -176,34 +175,34 @@ for i in range(0,8):
 
    eff_data_eta.append(eff1D_data_eta.Clone())
 
-   #Confusing name since both start as data but need to do mc and embedded separately
-   ratio_eta_mc=eff1D_data_eta.Clone()
-   ratio_eta_mc.Sumw2()
-   ratio_eta_mc.Divide(eff1D_mc_eta)
+   ratio_mc_eta=eff1D_data_eta.Clone()
+   ratio_mc_eta.Sumw2()
+   ratio_mc_eta.Divide(eff1D_mc_eta)
 
-   ratio_eta_mc.SetTitle("")
-   ratio_eta_mc.GetXaxis().SetTitle("Supercluster #eta")
-   ratio_eta_mc.GetYaxis().SetTitle("SF")
-   ratio_eta_mc.GetXaxis().SetNdivisions(515)
-   ratio_eta_mc.GetYaxis().SetNdivisions(505)
-   ratio_eta_mc.GetXaxis().SetTitleSize(0.15)
-   ratio_eta_mc.GetYaxis().SetTitleSize(0.15)
-   ratio_eta_mc.GetYaxis().SetTitleOffset(0.56)
-   ratio_eta_mc.GetXaxis().SetTitleOffset(1.04)
-   ratio_eta_mc.GetXaxis().SetLabelSize(0.11)
-   ratio_eta_mc.GetYaxis().SetLabelSize(0.11)
-   ratio_eta_mc.GetXaxis().SetTitleFont(42)
-   ratio_eta_mc.GetYaxis().SetTitleFont(42)
-   ratio_eta_mc.SetMinimum(0.78)
-   ratio_eta_mc.SetMaximum(1.12)
-   sf_mc_eta.append(ratio_eta_mc.Clone())
+   ratio_mc_eta.SetTitle("")
+   ratio_mc_eta.GetXaxis().SetTitle("Supercluster #eta")
+   ratio_mc_eta.GetYaxis().SetTitle("SF")
+   ratio_mc_eta.GetXaxis().SetNdivisions(515)
+   ratio_mc_eta.GetYaxis().SetNdivisions(505)
+   ratio_mc_eta.GetXaxis().SetTitleSize(0.15)
+   ratio_mc_eta.GetYaxis().SetTitleSize(0.15)
+   ratio_mc_eta.GetYaxis().SetTitleOffset(0.56)
+   ratio_mc_eta.GetXaxis().SetTitleOffset(1.04)
+   ratio_mc_eta.GetXaxis().SetLabelSize(0.11)
+   ratio_mc_eta.GetYaxis().SetLabelSize(0.11)
+   ratio_mc_eta.GetXaxis().SetTitleFont(42)
+   ratio_mc_eta.GetYaxis().SetTitleFont(42)
+   ratio_mc_eta.SetMinimum(0.78)
+   ratio_mc_eta.SetMaximum(1.12)
+   sf_mc_eta.append(ratio_mc_eta.Clone())
 
+# Second for loop for mc
 # loops over eta bins to extract 1D Pt eficiency for data and MC
 # computes data/MC SFs and draw ratio plots 
-for i in range(0,8):
+for i in range(0,4):
    
    eff1D_data=ROOT.TH1F("eff1_data","eff1D_data",nb_bins,array('d',bins_pt))
-   eff1D_mc=ROOT.TH1F("eff1_embedded","eff1D_embedded",nb_bins,array('d',bins_pt))
+   eff1D_mc=ROOT.TH1F("eff1_mc","eff1D_mc",nb_bins,array('d',bins_pt))
 
    for k in range(0,nb_bins):
       eff1D_data.SetBinContent(k+1,eff2D_data.GetBinContent(k+1,i+1))
@@ -219,7 +218,7 @@ for i in range(0,8):
    eff1D_mc.GetYaxis().SetLabelSize(0.06)
    eff1D_mc.GetYaxis().SetTitleSize(0.075)
    eff1D_mc.GetYaxis().SetTitleOffset(1.04)
-   eff1D_mc.SetTitle("sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_mc")
+   eff1D_mc.SetTitle("") # set actual title for electron but don't want to call this sf
    eff1D_mc.GetYaxis().SetTitle("Events/bin")
    eff1D_mc.SetLineColor(1)
    eff1D_mc.SetLineWidth(3)
@@ -229,6 +228,7 @@ for i in range(0,8):
 
    eff_data.append(eff1D_data.Clone())
 
+   c.cd()
    pad1 = ROOT.TPad("pad1","pad1",0,0.35,1,1)
    pad1.Draw()
    pad1.cd()
@@ -297,19 +297,19 @@ for i in range(0,8):
    ROOT.gPad.RedrawAxis()
 
    c.Modified()
-   #c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_mc.png")
-   #c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_mc.pdf")
+   #c.SaveAs("plots_mu_"+args.year+"/sf_mu_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".png")
+   #c.SaveAs("plots_mu_"+args.year+"/sf_mu_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".pdf")
 
-#Embedded for loops
-# loops over Pt bins for eta plots
-# lazy and called ratio_eta but really embedded
-for i in range(0,8):
+##########################################################
+# first for loop for embedded
+# loops over pt bins to extract 1D eta distributions of efficiency for data and Embedded
+for i in range(0,7):
 
    eff1D_data_eta=ROOT.TH1F("eff1_data_eta","eff1D_data_eta",nb_bins_eta,array('d',bins_eta))
    eff1D_embedded_eta=ROOT.TH1F("eff1_embedded_eta","eff1D_embedded_eta",nb_bins_eta,array('d',bins_eta))
 
    for k in range(0,nb_bins_eta):
-      eff1D_data_eta.SetBinContent(k+1,eff2D_data.GetBinContent(i+1,k+1))
+      eff1D_data_eta.SetBinContent(k+1,eff2D_data.GetBinContent(i+1,k+1)) #QUESTION: what are we doing here
       eff1D_embedded_eta.SetBinContent(k+1,eff2D_embedded.GetBinContent(i+1,k+1))
       eff1D_data_eta.SetBinError(k+1,eff2D_data.GetBinError(i+1,k+1))
       eff1D_embedded_eta.SetBinError(k+1,eff2D_embedded.GetBinError(i+1,k+1))
@@ -332,32 +332,31 @@ for i in range(0,8):
 
    eff_data_eta.append(eff1D_data_eta.Clone())
 
-   #Confusing name since both start as data but need to do mc and embedded separately
-   ratio_eta=eff1D_data_eta.Clone()
-   ratio_eta.Sumw2()
-   ratio_eta.Divide(eff1D_embedded_eta)
+   ratio_embedded_eta=eff1D_data_eta.Clone()
+   ratio_embedded_eta.Sumw2()
+   ratio_embedded_eta.Divide(eff1D_embedded_eta)
 
-   ratio_eta.SetTitle("")
-   ratio_eta.GetXaxis().SetTitle("Supercluster #eta")
-   ratio_eta.GetYaxis().SetTitle("SF")
-   ratio_eta.GetXaxis().SetNdivisions(515)
-   ratio_eta.GetYaxis().SetNdivisions(505)
-   ratio_eta.GetXaxis().SetTitleSize(0.15)
-   ratio_eta.GetYaxis().SetTitleSize(0.15)
-   ratio_eta.GetYaxis().SetTitleOffset(0.56)
-   ratio_eta.GetXaxis().SetTitleOffset(1.04)
-   ratio_eta.GetXaxis().SetLabelSize(0.11)
-   ratio_eta.GetYaxis().SetLabelSize(0.11)
-   ratio_eta.GetXaxis().SetTitleFont(42)
-   ratio_eta.GetYaxis().SetTitleFont(42)
-   ratio_eta.SetMinimum(0.78)
-   ratio_eta.SetMaximum(1.12)
-   sf_embedded_eta.append(ratio_eta.Clone())
+   ratio_embedded_eta.SetTitle("")
+   ratio_embedded_eta.GetXaxis().SetTitle("Supercluster #eta")
+   ratio_embedded_eta.GetYaxis().SetTitle("SF")
+   ratio_embedded_eta.GetXaxis().SetNdivisions(515)
+   ratio_embedded_eta.GetYaxis().SetNdivisions(505)
+   ratio_embedded_eta.GetXaxis().SetTitleSize(0.15)
+   ratio_embedded_eta.GetYaxis().SetTitleSize(0.15)
+   ratio_embedded_eta.GetYaxis().SetTitleOffset(0.56)
+   ratio_embedded_eta.GetXaxis().SetTitleOffset(1.04)
+   ratio_embedded_eta.GetXaxis().SetLabelSize(0.11)
+   ratio_embedded_eta.GetYaxis().SetLabelSize(0.11)
+   ratio_embedded_eta.GetXaxis().SetTitleFont(42)
+   ratio_embedded_eta.GetYaxis().SetTitleFont(42)
+   ratio_embedded_eta.SetMinimum(0.78)
+   ratio_embedded_eta.SetMaximum(1.12)
+   sf_embedded_eta.append(ratio_embedded_eta.Clone())
 
-#second for loop within embedded
-# loops over eta bins (?)
-
-for i in range(0,8):
+# Second for loop for Embedded
+# loops over eta bins to extract 1D Pt eficiency for data and MC
+# computes data/MC SFs and draw ratio plots 
+for i in range(0,4):
    
    eff1D_data=ROOT.TH1F("eff1_data","eff1D_data",nb_bins,array('d',bins_pt))
    eff1D_embedded=ROOT.TH1F("eff1_embedded","eff1D_embedded",nb_bins,array('d',bins_pt))
@@ -376,7 +375,7 @@ for i in range(0,8):
    eff1D_embedded.GetYaxis().SetLabelSize(0.06)
    eff1D_embedded.GetYaxis().SetTitleSize(0.075)
    eff1D_embedded.GetYaxis().SetTitleOffset(1.04)
-   eff1D_embedded.SetTitle("sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_embedded")
+   eff1D_embedded.SetTitle("") # set actual title for electron but don't want to call this sf
    eff1D_embedded.GetYaxis().SetTitle("Events/bin")
    eff1D_embedded.SetLineColor(1)
    eff1D_embedded.SetLineWidth(3)
@@ -423,10 +422,10 @@ for i in range(0,8):
    pad2.Draw()
    pad2.SetLogx()
    pad2.cd()
-   
+
    ratio_embedded=eff1D_data.Clone()
    ratio_embedded.Sumw2()
-   ratio_embedded.Divide(eff1D_mc)
+   ratio_embedded.Divide(eff1D_embedded)
 
    ratio_embedded.SetTitle("")
    ratio_embedded.GetXaxis().SetTitle("p_{T} (GeV)")
@@ -450,15 +449,17 @@ for i in range(0,8):
    sf_embedded.append(ratio_embedded.Clone())
 
    c2.cd()
-   pad1.Draw()
+   pad1.Draw() # why pad2 not drawn here?
 
    ROOT.gPad.RedrawAxis()
 
    c2.Modified()
-   #c2.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_embedded.png")
-   #c2.SaveAs("plots_el_"+args.year+args.time+"/sf_el_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+"_embedded.pdf")
+   #c.SaveAs("plots_mu_"+args.year+"/sf_mu_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".png")
+   #c.SaveAs("plots_mu_"+args.year+"/sf_mu_"+args.year+"_"+args.discriminant+"_etabin"+str(i)+".pdf")
 
 ##########################################################
+# I think this is where mc has the overall eff1D and SF drawn
+c.cd() # why didn't we need this before?
 pad1 = ROOT.TPad("pad1","pad1",0,0.35,1,1)
 pad1.Draw()
 pad1.cd()
@@ -477,30 +478,22 @@ pad1.SetFrameBorderMode(0)
 pad1.SetFrameBorderSize(10)
 pad1.SetLogx()
 
-eff_data[0].Add(eff_data[7])
-eff_data[1].Add(eff_data[6])
-eff_data[2].Add(eff_data[5])
-eff_data[3].Add(eff_data[4])
-eff_data[0].Scale(0.5)
-eff_data[1].Scale(0.5)
-eff_data[2].Scale(0.5)
-eff_data[3].Scale(0.5)
-eff_data[3].SetLineColor(ROOT.kBlack)
-eff_data[3].SetMarkerColor(ROOT.kBlack)
-eff_data[3].SetMarkerStyle(20)
-eff_data[3].SetLineWidth(3)
-eff_data[2].SetLineColor(ROOT.kGray+1)
-eff_data[2].SetMarkerColor(ROOT.kGray+1)
-eff_data[2].SetMarkerStyle(20)
-eff_data[2].SetLineWidth(3)
-eff_data[1].SetLineColor(ROOT.kRed+1)
-eff_data[1].SetMarkerColor(ROOT.kRed+1)
-eff_data[1].SetMarkerStyle(20)
-eff_data[1].SetLineWidth(3)
-eff_data[0].SetLineColor(ROOT.kRed-2)
-eff_data[0].SetMarkerColor(ROOT.kRed-2)
+eff_data[0].SetLineColor(ROOT.kBlack) # QUESTION: why don't we scale by 0.5 like electron?
+eff_data[0].SetMarkerColor(ROOT.kBlack)
 eff_data[0].SetMarkerStyle(20)
 eff_data[0].SetLineWidth(3)
+eff_data[1].SetLineColor(ROOT.kBlue+1)
+eff_data[1].SetMarkerColor(ROOT.kBlue+1)
+eff_data[1].SetMarkerStyle(20)
+eff_data[1].SetLineWidth(3)
+eff_data[2].SetLineColor(ROOT.kOrange+1)
+eff_data[2].SetMarkerColor(ROOT.kOrange+1)
+eff_data[2].SetMarkerStyle(20)
+eff_data[2].SetLineWidth(3)
+eff_data[3].SetLineColor(ROOT.kGreen-2)
+eff_data[3].SetMarkerColor(ROOT.kGreen-2)
+eff_data[3].SetMarkerStyle(20)
+eff_data[3].SetLineWidth(3)
 
 eff_data[0].SetTitle("")
 eff_data[0].GetXaxis().SetTitleSize(0.0)
@@ -516,10 +509,10 @@ eff_data[3].Draw("epsame")
 eff_data[0].Draw("epsame")
 
 legende=make_legend()
-legende.AddEntry(eff_data[3],"0.000 < |#eta| < 0.800","ep")
-legende.AddEntry(eff_data[2],"0.800 < |#eta| < 1.444","ep")
-legende.AddEntry(eff_data[1],"1.566 < |#eta| < 2.000","ep")
-legende.AddEntry(eff_data[0],"2.000 < |#eta| < 2.500","ep")
+legende.AddEntry(eff_data[0],"0.0 < |#eta| < 0.9","ep")
+legende.AddEntry(eff_data[1],"0.9 < |#eta| < 1.2","ep")
+legende.AddEntry(eff_data[2],"1.2 < |#eta| < 2.1","ep")
+legende.AddEntry(eff_data[3],"2.1 < |#eta| < 2.4","ep")
 legende.Draw("same")
 
 c.cd()
@@ -536,34 +529,26 @@ pad2.Draw()
 pad2.SetLogx()
 pad2.cd()
 
-sf_mc[3].Add(sf_mc[4])
-sf_mc[2].Add(sf_mc[5])
-sf_mc[1].Add(sf_mc[6])
-sf_mc[0].Add(sf_mc[7])
-sf_mc[0].Scale(0.5)
-sf_mc[1].Scale(0.5)
-sf_mc[2].Scale(0.5)
-sf_mc[3].Scale(0.5)
-sf_mc[3].SetLineColor(ROOT.kBlack)
-sf_mc[3].SetMarkerColor(ROOT.kBlack)
-sf_mc[3].SetMarkerStyle(20)
-sf_mc[3].SetLineWidth(3)
-sf_mc[2].SetLineColor(ROOT.kGray+1)
-sf_mc[2].SetMarkerColor(ROOT.kGray+1)
-sf_mc[2].SetMarkerStyle(20)
-sf_mc[2].SetLineWidth(3)
-sf_mc[1].SetLineColor(ROOT.kRed+1)
-sf_mc[1].SetMarkerColor(ROOT.kRed+1)
-sf_mc[1].SetMarkerStyle(20)
-sf_mc[1].SetLineWidth(3)
-sf_mc[0].SetLineColor(ROOT.kRed-2)
-sf_mc[0].SetMarkerColor(ROOT.kRed-2)
+sf_mc[0].SetLineColor(ROOT.kBlack) #QUESTION:why did muon have sf[] section originally but not electron?
+sf_mc[0].SetMarkerColor(ROOT.kBlack)
 sf_mc[0].SetMarkerStyle(20)
 sf_mc[0].SetLineWidth(3)
+sf_mc[1].SetLineColor(ROOT.kBlue+1)
+sf_mc[1].SetMarkerColor(ROOT.kBlue+1)
+sf_mc[1].SetMarkerStyle(20)
+sf_mc[1].SetLineWidth(3)
+sf_mc[2].SetLineColor(ROOT.kOrange+1)
+sf_mc[2].SetMarkerColor(ROOT.kOrange+1)
+sf_mc[2].SetMarkerStyle(20)
+sf_mc[2].SetLineWidth(3)
+sf_mc[3].SetLineColor(ROOT.kGreen-2)
+sf_mc[3].SetMarkerColor(ROOT.kGreen-2)
+sf_mc[3].SetMarkerStyle(20)
+sf_mc[3].SetLineWidth(3)
 
 sf_mc[3].SetMaximum(1.12)
 sf_mc[3].SetMinimum(0.78)
-sf_mc[3].Draw("ep")
+sf_mc[0].Draw("ep")
 sf_mc[1].Draw("epsame")
 sf_mc[2].Draw("epsame")
 sf_mc[3].Draw("epsame")
@@ -573,70 +558,12 @@ c.cd()
 pad1.Draw()
 ROOT.gPad.RedrawAxis()
 c.Modified()
+c.SaveAs("forAN/plots_mu_"+args.year+"/sf_mu_mc_"+args.year+"_"+args.discriminant+".png")
+c.SaveAs("forAN/plots_mu_"+args.year+"/sf_mu_mc_"+args.year+"_"+args.discriminant+".pdf")
 
-c.SaveAs("forAN/plots_el_"+args.year+"/sf_el_mc_"+args.year+"_"+args.discriminant+".png")
-c.SaveAs("forAN/plots_el_"+args.year+"/sf_el_mc_"+args.year+"_"+args.discriminant+".pdf")
-
-
-# adds opposing eta bins together, scales them, assigns colors, and then draws them all on the same canvas
+#duplicating 461-561 for embedded
+# I think this is where mc has the overall eff1D and SF drawn
 c2.cd()
-pad2 = ROOT.TPad("pad2","pad2",0,0,1,0.35);
-pad2.SetTopMargin(0.05);
-pad2.SetBottomMargin(0.35);
-pad2.SetLeftMargin(0.18);
-pad2.SetRightMargin(0.05);
-pad2.SetTickx(1)
-pad2.SetTicky(1)
-pad2.SetGridx()
-pad2.SetGridy()
-pad2.Draw()
-pad2.SetLogx()
-pad2.cd()
-
-sf_embedded[3].Add(sf_embedded[4])
-sf_embedded[2].Add(sf_embedded[5])
-sf_embedded[1].Add(sf_embedded[6])
-sf_embedded[0].Add(sf_embedded[7])
-sf_embedded[0].Scale(0.5)
-sf_embedded[1].Scale(0.5)
-sf_embedded[2].Scale(0.5)
-sf_embedded[3].Scale(0.5)
-sf_embedded[3].SetLineColor(ROOT.kBlack)
-sf_embedded[3].SetMarkerColor(ROOT.kBlack)
-sf_embedded[3].SetMarkerStyle(20)
-sf_embedded[3].SetLineWidth(3)
-sf_embedded[2].SetLineColor(ROOT.kGray+1)
-sf_embedded[2].SetMarkerColor(ROOT.kGray+1)
-sf_embedded[2].SetMarkerStyle(20)
-sf_embedded[2].SetLineWidth(3)
-sf_embedded[1].SetLineColor(ROOT.kRed+1)
-sf_embedded[1].SetMarkerColor(ROOT.kRed+1)
-sf_embedded[1].SetMarkerStyle(20)
-sf_embedded[1].SetLineWidth(3)
-sf_embedded[0].SetLineColor(ROOT.kRed-2)
-sf_embedded[0].SetMarkerColor(ROOT.kRed-2)
-sf_embedded[0].SetMarkerStyle(20)
-sf_embedded[0].SetLineWidth(3)
-
-sf_embedded[3].SetMaximum(1.12)
-sf_embedded[3].SetMinimum(0.78)
-sf_embedded[3].Draw("ep")
-sf_embedded[1].Draw("epsame")
-sf_embedded[2].Draw("epsame")
-sf_embedded[3].Draw("epsame")
-sf_embedded[0].Draw("epsame")
-
-c2.cd()
-pad1.Draw()
-ROOT.gPad.RedrawAxis()
-c2.Modified()
-
-c2.SaveAs("forAN/plots_el_"+args.year+"/sf_el_embedded_"+args.year+"_"+args.discriminant+".png")
-c2.SaveAs("forAN/plots_el_"+args.year+"/sf_el_embedded_"+args.year+"_"+args.discriminant+".pdf")
-
-
-
-########################################
 pad1 = ROOT.TPad("pad1","pad1",0,0.35,1,1)
 pad1.Draw()
 pad1.cd()
@@ -653,93 +580,46 @@ pad1.SetFrameFillStyle(0)
 pad1.SetFrameLineStyle(0)
 pad1.SetFrameBorderMode(0)
 pad1.SetFrameBorderSize(10)
+pad1.SetLogx()
 
-eff_data_eta[5].SetLineColor(ROOT.kGreen+1)
-eff_data_eta[5].SetMarkerColor(ROOT.kGreen+1)
-eff_data_eta[5].SetMarkerStyle(20)
-eff_data_eta[5].SetLineWidth(3)
-eff_data_eta[4].SetLineColor(ROOT.kOrange+1)
-eff_data_eta[4].SetMarkerColor(ROOT.kOrange+1)
-eff_data_eta[4].SetMarkerStyle(20)
-eff_data_eta[4].SetLineWidth(3)
-eff_data_eta[3].SetLineColor(ROOT.kBlack)
-eff_data_eta[3].SetMarkerColor(ROOT.kBlack)
-eff_data_eta[3].SetMarkerStyle(20)
-eff_data_eta[3].SetLineWidth(3)
-eff_data_eta[2].SetLineColor(ROOT.kGray+1)
-eff_data_eta[2].SetMarkerColor(ROOT.kGray+1)
-eff_data_eta[2].SetMarkerStyle(20)
-eff_data_eta[2].SetLineWidth(3)
-eff_data_eta[1].SetLineColor(ROOT.kRed+1)
-eff_data_eta[1].SetMarkerColor(ROOT.kRed+1)
-eff_data_eta[1].SetMarkerStyle(20)
-eff_data_eta[1].SetLineWidth(3)
-eff_data_eta[0].SetLineColor(ROOT.kRed-2)
-eff_data_eta[0].SetMarkerColor(ROOT.kRed-2)
-eff_data_eta[0].SetMarkerStyle(20)
-eff_data_eta[0].SetLineWidth(3)
+eff_data[0].SetLineColor(ROOT.kBlack) # QUESTION: why don't we scale by 0.5 like electron?
+eff_data[0].SetMarkerColor(ROOT.kBlack)
+eff_data[0].SetMarkerStyle(20)
+eff_data[0].SetLineWidth(3)
+eff_data[1].SetLineColor(ROOT.kBlue+1)
+eff_data[1].SetMarkerColor(ROOT.kBlue+1)
+eff_data[1].SetMarkerStyle(20)
+eff_data[1].SetLineWidth(3)
+eff_data[2].SetLineColor(ROOT.kOrange+1)
+eff_data[2].SetMarkerColor(ROOT.kOrange+1)
+eff_data[2].SetMarkerStyle(20)
+eff_data[2].SetLineWidth(3)
+eff_data[3].SetLineColor(ROOT.kGreen-2)
+eff_data[3].SetMarkerColor(ROOT.kGreen-2)
+eff_data[3].SetMarkerStyle(20)
+eff_data[3].SetLineWidth(3)
 
-eff_data_eta[2].SetTitle("")
-eff_data_eta[2].GetXaxis().SetTitleSize(0.0)
-eff_data_eta[2].GetYaxis().SetTitle("Data efficiency")
-eff_data_eta[2].GetYaxis().SetTitleSize(0.06)
-eff_data_eta[2].GetXaxis().SetLabelSize(0.0)
-eff_data_eta[2].SetMaximum(1.3)
-eff_data_eta[2].SetMinimum(0.2)
-eff_data_eta[2].Draw("ep")
-if args.discriminant=="HLTEle25" or args.discriminant=="HLTEle24Tau30" or args.discriminant=="HLTMu8Ele23" or args.discriminant=="HLTMu23Ele12" or args.discriminant=="MVAisoWP80":
-   eff_data_eta[1].Draw("epsame")
-if args.discriminant=="HLTMu23Ele12" or args.discriminant=="MVAisoWP80":
-   eff_data_eta[0].Draw("epsame")
-eff_data_eta[3].Draw("epsame")
-eff_data_eta[4].Draw("epsame")
-eff_data_eta[5].Draw("epsame")
-eff_data_eta[2].Draw("epsame")
-
-file_out.cd()
-eff_data_eta[0].SetName("eff_eta_pt15to20")
-eff_data_eta[1].SetName("eff_eta_pt20to35")
-eff_data_eta[2].SetName("eff_eta_pt35to50")
-eff_data_eta[3].SetName("eff_eta_pt50to75")
-eff_data_eta[4].SetName("eff_eta_pt75to100")
-eff_data_eta[5].SetName("eff_eta_pt100to200")
-eff_data_eta[0].Write()
-eff_data_eta[1].Write()
-eff_data_eta[2].Write()
-eff_data_eta[3].Write()
-eff_data_eta[4].Write()
-eff_data_eta[5].Write()
-
+eff_data[0].SetTitle("")
+eff_data[0].GetXaxis().SetTitleSize(0.0)
+eff_data[0].GetYaxis().SetTitle("Data efficiency")
+eff_data[0].GetYaxis().SetTitleSize(0.06)
+eff_data[0].GetXaxis().SetLabelSize(0.0)
+eff_data[0].SetMaximum(1.3)
+eff_data[0].SetMinimum(0.2)
+eff_data[0].Draw("ep")
+eff_data[1].Draw("epsame")
+eff_data[2].Draw("epsame")
+eff_data[3].Draw("epsame")
+eff_data[0].Draw("epsame")
 
 legende=make_legend()
-if args.discriminant=="HLTEle25":
-  legende.AddEntry(eff_data_eta[1],"26 < p_{T} < 35 GeV","ep")
-  legende.AddEntry(eff_data_eta[2],"35 < p_{T} < 50 GeV","ep")
-if args.discriminant=="HLTEle24Tau30":
-  legende.AddEntry(eff_data_eta[1],"25 < p_{T} < 35 GeV","ep")
-  legende.AddEntry(eff_data_eta[2],"35 < p_{T} < 50 GeV","ep")
-if args.discriminant=="HLTMu8Ele23":
-  legende.AddEntry(eff_data_eta[1],"24 < p_{T} < 35 GeV","ep")
-  legende.AddEntry(eff_data_eta[2],"35 < p_{T} < 50 GeV","ep")
-if args.discriminant=="HLTMu23Ele12" or args.discriminant=="MVAisoWP80":
-  legende.AddEntry(eff_data_eta[0],"15 < p_{T} < 20 GeV","ep")
-  legende.AddEntry(eff_data_eta[1],"20 < p_{T} < 35 GeV","ep")
-  legende.AddEntry(eff_data_eta[2],"35 < p_{T} < 50 GeV","ep")
-if args.discriminant=="HLTEle32": 
-  legende.AddEntry(eff_data_eta[2],"33 < p_{T} < 50 GeV","ep")
-legende.AddEntry(eff_data_eta[3],"50 < p_{T} < 75 GeV","ep")
-legende.AddEntry(eff_data_eta[4],"75 < p_{T} < 100 GeV","ep")
-legende.AddEntry(eff_data_eta[5],"100 < p_{T} < 200 GeV","ep")
+legende.AddEntry(eff_data[0],"0.0 < |#eta| < 0.9","ep")
+legende.AddEntry(eff_data[1],"0.9 < |#eta| < 1.2","ep")
+legende.AddEntry(eff_data[2],"1.2 < |#eta| < 2.1","ep")
+legende.AddEntry(eff_data[3],"2.1 < |#eta| < 2.4","ep")
 legende.Draw("same")
 
-bins_pt=[15,20,35,50,75,100,200]
-if args.discriminant=="HLTEle32": bins_pt[2]=33
-if args.discriminant=="HLTEle24Tau30": bins_pt[1]=25
-if args.discriminant=="HLTMu8Ele23": bins_pt[1]=24
-if args.discriminant=="HLTEle25": bins_pt[1]=26
-
-
-c.cd()
+c2.cd()
 pad2 = ROOT.TPad("pad2","pad2",0,0,1,0.35);
 pad2.SetTopMargin(0.05);
 pad2.SetBottomMargin(0.35);
@@ -750,40 +630,64 @@ pad2.SetTicky(1)
 pad2.SetGridx()
 pad2.SetGridy()
 pad2.Draw()
+pad2.SetLogx()
 pad2.cd()
 
-sf_mc_eta[5].SetLineColor(ROOT.kGreen+1)
-sf_mc_eta[5].SetMarkerColor(ROOT.kGreen+1)
-sf_mc_eta[5].SetMarkerStyle(20)
-sf_mc_eta[5].SetLineWidth(3)
-sf_mc_eta[4].SetLineColor(ROOT.kOrange+1)
-sf_mc_eta[4].SetMarkerColor(ROOT.kOrange+1)
-sf_mc_eta[4].SetMarkerStyle(20)
-sf_mc_eta[4].SetLineWidth(3)
-sf_mc_eta[3].SetLineColor(ROOT.kBlack)
-sf_mc_eta[3].SetMarkerColor(ROOT.kBlack)
-sf_mc_eta[3].SetMarkerStyle(20)
-sf_mc_eta[3].SetLineWidth(3)
-sf_mc_eta[2].SetLineColor(ROOT.kGray+1)
-sf_mc_eta[2].SetMarkerColor(ROOT.kGray+1)
-sf_mc_eta[2].SetMarkerStyle(20)
-sf_mc_eta[2].SetLineWidth(3)
-sf_mc_eta[1].SetLineColor(ROOT.kRed+1)
-sf_mc_eta[1].SetMarkerColor(ROOT.kRed+1)
-sf_mc_eta[1].SetMarkerStyle(20)
-sf_mc_eta[1].SetLineWidth(3)
-sf_mc_eta[0].SetLineColor(ROOT.kRed-2)
-sf_mc_eta[0].SetMarkerColor(ROOT.kRed-2)
-sf_mc_eta[0].SetMarkerStyle(20)
-sf_mc_eta[0].SetLineWidth(3)
+sf_embedded[0].SetLineColor(ROOT.kBlack) #QUESTION:why did muon have sf[] section originally but not electron?
+sf_embedded[0].SetMarkerColor(ROOT.kBlack)
+sf_embedded[0].SetMarkerStyle(20)
+sf_embedded[0].SetLineWidth(3)
+sf_embedded[1].SetLineColor(ROOT.kBlue+1)
+sf_embedded[1].SetMarkerColor(ROOT.kBlue+1)
+sf_embedded[1].SetMarkerStyle(20)
+sf_embedded[1].SetLineWidth(3)
+sf_embedded[2].SetLineColor(ROOT.kOrange+1)
+sf_embedded[2].SetMarkerColor(ROOT.kOrange+1)
+sf_embedded[2].SetMarkerStyle(20)
+sf_embedded[2].SetLineWidth(3)
+sf_embedded[3].SetLineColor(ROOT.kGreen-2)
+sf_embedded[3].SetMarkerColor(ROOT.kGreen-2)
+sf_embedded[3].SetMarkerStyle(20)
+sf_embedded[3].SetLineWidth(3)
+
+sf_embedded[3].SetMaximum(1.12)
+sf_embedded[3].SetMinimum(0.78)
+sf_embedded[0].Draw("ep")
+sf_embedded[1].Draw("epsame")
+sf_embedded[2].Draw("epsame")
+sf_embedded[3].Draw("epsame")
+sf_embedded[0].Draw("epsame")
+
+c2.cd()
+pad1.Draw() # QUESTION what about pad 2?
+ROOT.gPad.RedrawAxis()
+c2.Modified()
+c2.SaveAs("forAN/plots_mu_"+args.year+"/sf_mu_embedded_"+args.year+"_"+args.discriminant+".png")
+c2.SaveAs("forAN/plots_mu_"+args.year+"/sf_mu_embedded_"+args.year+"_"+args.discriminant+".pdf")
+
+########################
+#   WRITING TO ROOT FILE
+file_out.cd()
+eff_data_eta[0].SetName("eff_eta_pt15to24")
+eff_data_eta[1].SetName("eff_eta_pt24to30")
+eff_data_eta[2].SetName("eff_eta_pt30to40")
+eff_data_eta[3].SetName("eff_eta_pt40to50")
+eff_data_eta[4].SetName("eff_eta_pt50to60")
+eff_data_eta[5].SetName("eff_eta_pt60to120")
+eff_data_eta[0].Write()
+eff_data_eta[1].Write()
+eff_data_eta[2].Write()
+eff_data_eta[3].Write()
+eff_data_eta[4].Write()
+eff_data_eta[5].Write()
 
 file_out.cd()
-sf_mc_eta[0].SetName("sf_mc_eta_pt15to20")
-sf_mc_eta[1].SetName("sf_mc_eta_pt20to35")
-sf_mc_eta[2].SetName("sf_mc_eta_pt35to50")
-sf_mc_eta[3].SetName("sf_mc_eta_pt50to75")
-sf_mc_eta[4].SetName("sf_mc_eta_pt75to100")
-sf_mc_eta[5].SetName("sf_mc_eta_pt100to200")
+sf_mc_eta[0].SetName("sf_eta_pt15to24")
+sf_mc_eta[1].SetName("sf_eta_pt24to30")
+sf_mc_eta[2].SetName("sf_eta_pt30to40")
+sf_mc_eta[3].SetName("sf_eta_pt40to50")
+sf_mc_eta[4].SetName("sf_eta_pt50to60")
+sf_mc_eta[5].SetName("sf_eta_pt60to120")
 sf_mc_eta[0].Write()
 sf_mc_eta[1].Write()
 sf_mc_eta[2].Write()
@@ -791,22 +695,16 @@ sf_mc_eta[3].Write()
 sf_mc_eta[4].Write()
 sf_mc_eta[5].Write()
 
-sf_mc_eta[3].SetMaximum(1.12)
-sf_mc_eta[3].SetMinimum(0.78)
-sf_mc_eta[3].Draw("ep")
-sf_mc_eta[5].Draw("epsame")
-sf_mc_eta[4].Draw("epsame")
-if args.discriminant=="HLTEle25" or args.discriminant=="HLTEle24Tau30" or args.discriminant=="HLTMu8Ele23" or args.discriminant=="HLTMu23Ele12" or args.discriminant=="MVAisoWP80":
-   sf_mc_eta[1].Draw("epsame")
-if args.discriminant=="HLTMu23Ele12" or args.discriminant=="MVAisoWP80":
-   sf_mc_eta[0].Draw("epsame")
-sf_mc_eta[2].Draw("epsame")
-sf_mc_eta[3].Draw("epsame")
-
-c.cd()
-pad1.Draw()
-ROOT.gPad.RedrawAxis()
-c.Modified()
-#c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_eta_"+args.year+"_"+args.discriminant+".png")
-#c.SaveAs("plots_el_"+args.year+args.time+"/sf_el_eta_"+args.year+"_"+args.discriminant+".pdf")
-
+sf_embedded_eta[0].SetName("sf_eta_pt15to24")
+sf_embedded_eta[1].SetName("sf_eta_pt24to30")
+sf_embedded_eta[2].SetName("sf_eta_pt30to40")
+sf_embedded_eta[3].SetName("sf_eta_pt40to50")
+sf_embedded_eta[4].SetName("sf_eta_pt50to60")
+sf_embedded_eta[5].SetName("sf_eta_pt60to120")
+sf_embedded_eta[0].Write()
+sf_embedded_eta[1].Write()
+sf_embedded_eta[2].Write()
+sf_embedded_eta[3].Write()
+sf_embedded_eta[4].Write()
+sf_embedded_eta[5].Write()
+# QUESTION: why is this written at end?
